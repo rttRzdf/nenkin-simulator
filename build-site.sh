@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 OUT="${1:-$ROOT/_site}"
 EXPECTED_SHA256="44624826fadd73006a44facdc04e290334d369b0045006a8505476f4d4a1f930"
-EXPECTED_PART01_SHA1="ceb8b5c522d97ea36f0693f729d4303457b41841"
+EXPECTED_PART01_SHA1="c40720dc73086a3c6a100f9a411bae9db538431b"
 
 rm -rf "$OUT"
 mkdir -p "$OUT"
