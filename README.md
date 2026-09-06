@@ -10,7 +10,9 @@ https://rttRzdf.github.io/nenkin-simulator/
 
 `main` へのpushを契機に `.github/workflows/pages.yml` がGitHub Pagesへ自動デプロイします。
 
-公開HTMLは `site-payload/part-*` を結合・Base64デコード・gzip展開して生成します。`build-site.sh` は生成した `index.html` のSHA-256を検証し、元ファイルと1バイトでも異なる場合はデプロイを停止します。
+初回のみ、GitHubの **Settings → Pages → Build and deployment → Source** で **GitHub Actions** を選択してください。その後は `main` への更新だけで自動公開されます。
+
+公開HTMLは圧縮した分割データを `build-site.sh` が復元し、生成した `index.html` のSHA-256を元HTMLと照合します。1バイトでも異なる場合はデプロイを停止します。
 
 期待SHA-256:
 
