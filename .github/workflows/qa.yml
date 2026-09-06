@@ -1,0 +1,29 @@
+name: Browser and tax audit
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build candidate
+        run: bash ./build-site.sh ./_site
+      - name: Install test browsers
+        run: |
+          python3 -m venv /tmp/nenkin-qa
+          /tmp/nenkin-qa/bin/pip install playwright==1.57.0
+          /tmp/nenkin-qa/bin/python -m playwright install --with-deps chromium webkit firefox
+      - name: Exercise live page and candidate
+        run: /tmp/nenkin-qa/bin/python tests/browser-audit.py
+      - name: Retain actual results and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-audit
+          path: qa-results/
+          retention-days: 14
+          if-no-files-found: warn

@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="年金・給与・副業・家賃・投資収入を合算し、税金と社会保険料を差し引いた手取りを試算。端末内だけで動く日本向けの年金シミュレーターです。">
+<title>年金と暮らし | 収入まるごと手取りシミュレーター</title>
+<style>
+:root{--bg:#f5f7f6;--white:#fff;--ink:#172d2b;--muted:#637773;--border:#dfe7e3;--accent:#176d5b;--pale:#edf5f1;--mint:#9acbb5;--gold:#e3b868;--red:#b74639;--radius:17px;--shadow:0 5px 18px #213f3510}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}button,input,select{font:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}a{color:var(--accent);text-underline-offset:3px}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #56a394;outline-offset:3px}button:disabled{opacity:.5;cursor:not-allowed}[hidden]{display:none!important}h1,h2,h3,p{margin:0}h2{font-size:18px;line-height:1.5;letter-spacing:.01em}h3{font-size:16px;line-height:1.6}strong{font-weight:650}button{transition:background .15s,box-shadow .15s}.topbar{height:86px;background:#ffffffed;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:30px;padding:0 max(30px,calc((100vw - 1400px)/2));position:relative;z-index:2}.brand{display:flex;gap:11px;align-items:center;text-decoration:none;color:var(--ink);font-size:21px;font-weight:700;letter-spacing:.025em;line-height:1.4;flex-shrink:0}.brand small{display:block;font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.18em;margin-top:4px}.brand-mark{width:41px;height:44px;background:var(--accent);border-radius:12px 12px 20px 12px;color:white;display:flex;align-items:center;justify-content:center;font:27px Georgia,serif}.topbar nav{display:flex;gap:35px}.topbar nav a{font-size:13px;color:var(--muted);text-decoration:none}.topbar nav a:first-child{color:var(--accent);font-weight:700}.local-badge{font-size:11px;display:flex;align-items:center;gap:8px;background:var(--pale);padding:7px 13px;border-radius:30px;color:var(--accent);white-space:nowrap}.local-badge i,.live-badge i{height:6px;width:6px;border-radius:100%;background:#388973}main{max-width:1400px;padding:0 30px;margin:auto}.intro{padding:43px 0 26px;display:flex;align-items:center;justify-content:space-between;gap:20px}.eyebrow{font-size:10px;letter-spacing:.15em;color:var(--accent);font-weight:700;margin-bottom:10px}h1{font-size:36px;letter-spacing:.035em;line-height:1.45;font-weight:700}.intro-text{font-size:13px;color:var(--muted);margin-top:12px}.mobile-br{display:none}.intro-stamp{display:flex;flex-direction:column;text-align:right;font-size:10px;color:var(--muted);gap:2px;min-width:125px}.intro-stamp strong{font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.07em}.intro-stamp small{font-size:10px}.scope-note{display:flex;gap:12px;align-items:flex-start;background:#eef2ee;border:1px solid #dce5dd;padding:12px 16px;border-radius:11px;font-size:11px;color:#526a60}.scope-note strong{color:#3b564b}.scope-note a{margin-left:6px;white-space:nowrap}.info-icon{display:block;background:#dbe7df;border-radius:50%;min-width:18px;height:18px;text-align:center;line-height:18px;font-family:Georgia,serif;font-weight:700;font-size:12px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:20px 0 18px;flex-wrap:wrap}.toolbar>div:first-child{display:flex;align-items:center;gap:10px}.pill{background:#fff0d6;color:#7d6127;font-size:10px;font-weight:600;border-radius:5px;padding:3px 8px;white-space:nowrap}.pill.modified{background:#e5f1eb;color:var(--accent)}.subtle{font-size:10px;color:var(--muted)}.tools{display:flex;gap:5px;flex-wrap:wrap}.btn{border:1px solid transparent;border-radius:8px;padding:9px 14px;line-height:1.4;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:37px;background:transparent}.btn.plain{font-size:10px;font-weight:500;color:var(--muted);padding:7px 9px;min-height:32px}.btn.plain:hover{background:#e6eee9;color:var(--ink)}.btn.primary{background:var(--accent);color:white;box-shadow:0 3px 10px #176d5b20}.btn.primary:hover{background:#105647}.btn.secondary{background:white;border-color:var(--border);color:var(--ink)}.btn.secondary:hover{background:var(--pale)}.btn.add{width:100%;color:var(--accent);border:1px dashed #8bb7a5;background:#f3f9f5;margin-top:14px;min-height:44px}.btn.add:hover{background:#e6f2ea}.workspace{display:grid;grid-template-columns:360px minmax(0,1fr);gap:25px;align-items:start}.settings{display:flex;flex-direction:column;gap:17px}.card{background:white;border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 2px 6px #223e3504;min-width:0}.settings-card{padding:22px}.section-heading{display:flex;align-items:center;gap:10px;margin-bottom:17px}.section-heading h2{font-size:15px;flex:1}.step{font-size:10px;background:var(--pale);color:var(--accent);padding:3px 6px;border-radius:4px;font-weight:700;letter-spacing:.02em}.small-tag{font-size:10px;color:var(--muted);background:#f1f4f2;border:1px solid #e7ece8;border-radius:5px;padding:2px 7px;white-space:nowrap}.helper{font-size:10px;line-height:1.85;color:var(--muted);margin-bottom:13px}.helper strong{font-weight:600;color:#45665b}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field-grid .wide{grid-column:1/-1}.field{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:600;color:#435b53;margin-bottom:12px;min-width:0}.field-grid .field{margin:0}.optional{font-weight:400;font-size:9px;color:#7a8b84;display:inline}.input-wrap{position:relative;display:flex;align-items:center;border:1px solid #dbe4dd;border-radius:8px;overflow:hidden;background:#fcfdfc;min-height:43px}.input-wrap:focus-within{border-color:#619c87;box-shadow:0 0 0 3px #d8ebe2}.input-wrap input{border:0;outline:0!important;box-shadow:none!important;padding:10px 9px 10px 12px;min-width:0;width:100%;font-size:16px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;background:transparent;line-height:1.4}.input-wrap>span{white-space:nowrap;font-size:10px;color:var(--muted);font-weight:400;padding-right:12px}.field>input,.field select{border:1px solid #dbe4dd;border-radius:8px;background:#fcfdfc;width:100%;padding:10px 12px;min-height:43px;color:var(--ink);font-size:12px}.field select{padding-right:22px}.field select:focus{border-color:#619c87}.check{display:flex;gap:8px;align-items:flex-start;font-size:11px;color:#4c655b;margin:13px 0}.check input{accent-color:var(--accent);min-height:17px;min-width:17px;margin:1px 0 0}.pension-highlight{background:var(--pale);border-radius:9px;padding:12px 14px;margin-top:15px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.pension-highlight>span{font-size:10px;color:#567467}.pension-highlight strong{font-size:21px;color:var(--accent);line-height:1.4;font-variant-numeric:tabular-nums}.pension-highlight small{font-size:9px;color:#6f8578;flex-basis:100%}.inline-details{margin-top:15px;border-top:1px solid #edf0ec;padding-top:13px}.inline-details summary,.calculation-details summary,.source-details summary{cursor:pointer;font-size:11px;color:#4c695d;list-style:none;font-weight:600}.inline-details summary::after,.calculation-details summary::after,.source-details summary::after{content:'＋';float:right;font-size:13px;line-height:1.4;margin-left:10px}.inline-details[open] summary::after,.calculation-details[open] summary::after,.source-details[open] summary::after{content:'−'}.inline-details[open] summary{margin-bottom:16px}summary::-webkit-details-marker{display:none}.income-list{display:flex;flex-direction:column;gap:9px}.income-row{border:1px solid #e2e9e3;border-radius:10px;padding:12px;background:#fff;display:flex;align-items:center;gap:10px}.income-icon{height:34px;width:34px;display:flex;align-items:center;justify-content:center;border-radius:9px;background:#eef4f0;color:#4f7b63;font-size:15px;flex-shrink:0}.income-body{flex:1;min-width:0}.income-body button{border:0;background:none;text-align:left;padding:0;color:var(--ink);display:block;width:100%;font-size:11px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.income-body button:hover{text-decoration:underline}.income-body small{display:block;font-size:9px;color:var(--muted);margin-top:2px}.income-right{font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:4px;flex-shrink:0}.income-right strong{font-size:13px;line-height:1.25}.income-right small{font-size:8px;display:block;font-weight:400;color:var(--muted);text-align:right}.icon-btn{display:flex;align-items:center;justify-content:center;background:transparent;border:0;color:#9aaba1;font-size:20px;padding:4px;width:27px;height:32px;line-height:1;border-radius:5px}.icon-btn:hover{background:#f7eae6;color:var(--red)}.empty-income{font-size:11px;color:var(--muted);text-align:center;padding:12px}.results{min-width:0}.result-heading{display:flex;align-items:center;justify-content:space-between;margin:1px 0 14px;gap:10px}.result-heading h2{font-size:17px}.live-badge{font-size:9px;color:var(--muted);display:flex;align-items:center;gap:6px}.age-control{display:flex;align-items:center;gap:19px;padding:15px 21px;margin-bottom:15px}.age-control>label{font-size:10px;color:var(--muted);display:flex;align-items:center;gap:14px;white-space:nowrap}.age-control strong{font-size:25px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.3}.age-control strong span{font-size:11px;font-weight:500;margin-left:3px}.age-control input[type=range]{flex:1;accent-color:var(--accent);height:5px;min-width:60px;cursor:pointer}.age-quick{display:flex;gap:4px}.age-quick button{font-size:10px;padding:4px 7px;background:#f1f5f2;color:var(--muted);border:0;border-radius:5px;min-height:28px}.age-quick button.current{background:var(--accent);color:white}.net-card{border-radius:var(--radius);background:#175b4c;color:white;padding:26px 30px 18px;position:relative;overflow:hidden;box-shadow:0 6px 20px #184e3f14}.net-card:after{content:'';position:absolute;width:260px;height:260px;border:1px solid #ffffff0b;border-radius:50%;right:-75px;top:-80px;pointer-events:none}.net-card:before{content:'';position:absolute;width:190px;height:190px;border:1px solid #ffffff0c;border-radius:50%;right:-40px;top:-45px;pointer-events:none}.net-top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:#d7e9de;position:relative;z-index:1}.net-tag{font-size:9px;border:1px solid #78a29060;padding:4px 8px;border-radius:5px;white-space:nowrap;color:#c4ded0;background:#ffffff05}.net-amount{display:flex;align-items:baseline;gap:11px;margin:9px 0 2px;font-variant-numeric:tabular-nums}.net-amount strong{font-size:68px;font-weight:500;letter-spacing:-.035em;line-height:1.2}.net-amount>span{font-size:16px;color:#ccded3;font-weight:400}.net-sub{display:flex;gap:18px;font-size:12px;color:#d8e8de;align-items:center}.net-sub>span:nth-child(2){font-size:10px;color:#a8c7b7}.net-bottom{font-size:9px;color:#9fc0b1;border-top:1px solid #81a99550;margin-top:18px;padding-top:12px;display:flex;flex-direction:column;gap:5px}.net-bottom #principal-note{color:#edcf93}.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0 18px}.metric{padding:17px 18px;display:flex;flex-direction:column;gap:5px;line-height:1.45}.metric>span{font-size:10px;color:var(--muted)}.metric strong{font-size:23px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.metric strong small{font-size:10px;font-weight:400;margin-left:4px}.metric>small{font-size:9px;color:#7c8e83;line-height:1.6}.negative{color:var(--red)!important}.positive{color:var(--accent)!important}.chart-card,.breakdown-card,.compare-card{padding:22px 24px;margin-bottom:18px}.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:13px}.card-top p:not(.eyebrow){font-size:10px;color:var(--muted);margin-top:4px}.legend{display:flex;align-items:center;gap:13px;font-size:10px;white-space:nowrap;margin-top:4px}.legend span{display:flex;align-items:center;gap:5px}.legend i{width:8px;height:8px;border-radius:2px}.gross-dot{background:#b2d5c5}.net-dot{background:#176d5b}.chart{height:235px;min-width:0}.chart svg{width:100%;height:100%;overflow:visible}.chart text{font-family:inherit;font-size:10px;fill:#7a8d81}.chart .bar-hit{cursor:pointer}.chart .bar-hit:hover rect:first-child{fill:#95c2ac}.chart-foot{display:flex;justify-content:space-between;gap:10px;font-size:9px;color:#7e9085;border-top:1px solid #edf1ed;padding-top:9px;margin-top:5px}.breakdown-row{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:9px 0;border-bottom:1px solid #f0f3ef;font-size:11px}.breakdown-row>span:first-child{color:#587063;display:flex;align-items:center;gap:7px}.breakdown-row .dot{width:6px;height:6px;border-radius:2px;background:#9abdab;display:inline-block;flex-shrink:0}.breakdown-row strong{font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}.breakdown-row.subrow{padding-left:16px;font-size:10px}.breakdown-row.subrow strong{font-size:10px;color:var(--muted)}.breakdown-row.total{background:#f0f7f2;border:0;border-radius:7px;padding:12px;margin-top:10px}.breakdown-row.total strong{color:var(--accent);font-size:17px}.breakdown-row.total>span{color:var(--accent);font-weight:600}.breakdown-row.deduction>span .dot{background:#dbbda0}.calculation-details{margin-top:17px;border-top:1px solid #e7ece6;padding-top:14px}.calculation-details[open] summary{margin-bottom:16px}.detail-subheading{font-size:11px;color:var(--accent);background:#f5f8f4;border-radius:5px;padding:6px 9px;margin:15px 0 3px}.comparison{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0 14px}.compare-option{background:#fcfdfb;border:1px solid #dfe8df;border-radius:10px;padding:12px 7px;display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--ink);min-width:0}.compare-option.active{background:#eef7f1;border-color:#6caa8c;box-shadow:inset 0 0 0 1px #6caa8c}.compare-option>span{font-size:10px;color:var(--muted)}.compare-option strong{font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}.compare-option small{font-size:8px;color:var(--muted);white-space:nowrap}.compare-option .compare-age{font-size:12px;font-weight:600;color:var(--ink)}.notice-card{padding:19px 21px;border:1px solid #e7dfc8;background:#faf8ee;border-radius:12px;color:#7e704d;margin-bottom:20px}.notice-card h3{font-size:11px;margin-bottom:8px}.notice-card p{font-size:10px;line-height:1.9;margin:7px 0;padding-left:12px;position:relative}.notice-card p:before{content:'·';position:absolute;left:0;font-weight:700}.yearly-card{padding:26px;margin:28px 0 24px}.yearly-card .card-top{align-items:center;margin-bottom:19px}.table-wrap{overflow:auto;border:1px solid #e4ebe3;border-radius:10px;max-height:560px;scrollbar-width:thin}table{width:100%;border-collapse:separate;border-spacing:0;font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}thead th{padding:13px 14px;background:#f1f5f0;font-weight:600;font-size:10px;color:#54705f;position:sticky;top:0;z-index:1;border-bottom:1px solid #dce6dc}tbody td{padding:12px 14px;border-bottom:1px solid #edf1e9}tbody tr:nth-child(even){background:#fbfcfa}tbody tr.selected{background:#edf7ef}thead th:first-child,tbody td:first-child{position:sticky;left:0;background:#f5f8f2;z-index:1;font-weight:600;text-align:left}thead th:first-child{z-index:2}td:nth-child(10),td:nth-child(11){color:var(--accent);font-weight:600}td button{background:none;border:0;padding:0;color:var(--accent);font-weight:600;font-size:11px}.table-note{font-size:10px;color:var(--muted);margin-top:13px}.assumptions-card{padding:30px;margin-bottom:32px}.assumption-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 35px;margin:25px 0}.assumption-grid h3{font-size:13px;margin-bottom:9px}.assumption-grid p{font-size:11px;color:var(--muted);line-height:1.95;margin:8px 0}.bottom-notice{font-size:11px;color:#6a714f;background:#f6f5ec;border-radius:8px;padding:14px 17px;line-height:1.9}.source-details{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}.sources{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;padding-top:18px}.sources a{font-size:10px;display:flex;flex-direction:column;text-decoration:none;padding:6px 0}.sources a:hover{text-decoration:underline}.sources small{font-size:9px;color:var(--muted)}footer{max-width:1340px;margin:auto;padding:0 0 35px;display:flex;align-items:center;justify-content:space-between;gap:25px;color:var(--muted)}.footer-brand{font-size:16px}.footer-brand .brand-mark{width:30px;height:33px;font-size:21px;border-radius:8px 8px 13px 8px}.footer-brand small{font-size:7px}.footer-brand+p{font-size:10px;line-height:1.8}footer>small{font-size:9px;white-space:nowrap}dialog{border:1px solid #dce5db;border-radius:19px;width:min(550px,calc(100% - 24px));padding:0;box-shadow:0 25px 100px #152d2650;max-height:90vh;color:var(--ink)}dialog::backdrop{background:#112c2960;backdrop-filter:blur(3px)}.dialog-header{padding:24px 26px 18px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #e6ece2}.dialog-header .eyebrow{margin-bottom:5px}.dialog-body{padding:22px 26px;max-height:calc(90vh - 185px);overflow:auto}.dialog-body .field{font-size:12px}.dialog-body input,.dialog-body select{font-size:15px}.dialog-body .field-grid{margin-bottom:13px}.dialog-body .check{font-size:12px}.type-help{background:#f1f6ee;padding:12px 14px;font-size:11px;line-height:1.8;color:#5b7464;border-radius:8px;margin-bottom:18px}.dialog-footer{padding:16px 26px;display:flex;justify-content:flex-end;gap:9px;border-top:1px solid #e6ece2;background:#fcfdfb}.dialog-footer .btn{min-height:43px}.error-box{border:1px solid #d38c7c;background:#fff1ed;color:#9e3528;font-size:12px;padding:15px 18px;border-radius:10px;margin-bottom:15px;line-height:1.85}.error-box p+p{margin-top:5px}.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#173d32;color:white;font-size:12px;padding:13px 23px;border-radius:10px;box-shadow:var(--shadow);z-index:10;max-width:calc(100% - 30px);text-align:center}.no-script{position:fixed;inset:0;background:#fff;padding:50px;font-size:20px;z-index:100}.sr-only,.skip:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip:focus{position:fixed;top:8px;left:8px;background:white;padding:12px;z-index:100}
+@media(min-width:1500px){.workspace{grid-template-columns:385px minmax(0,1fr);gap:28px}.settings-card{padding:24px}.chart{height:260px}}
+@media(max-width:1150px){.topbar{padding:0 25px}.topbar nav{gap:20px}main{padding:0 24px}.workspace{grid-template-columns:320px minmax(0,1fr);gap:19px}.settings-card{padding:19px}.intro h1{font-size:31px}.age-control{flex-wrap:wrap;gap:12px}.age-control input[type=range]{min-width:100px}.age-quick{width:100%;justify-content:flex-end}.metric{padding:14px 11px}.metric strong{font-size:21px}.metric>span{font-size:9px}.net-tag{font-size:8px}.net-card{padding:24px 24px 17px}.net-amount strong{font-size:60px}.chart-card,.breakdown-card,.compare-card{padding:20px}.comparison{grid-template-columns:1fr 1fr}.compare-option{padding:11px}.compare-option strong{font-size:18px}.compare-option small{font-size:9px}footer{padding:0 25px 30px;flex-wrap:wrap}.chart-foot{font-size:8px}}
+@media(max-width:850px){.topbar{height:74px}.topbar nav{display:none}.intro{padding-top:28px}.intro h1{font-size:30px}.intro-stamp{display:none}.workspace{grid-template-columns:minmax(0,1fr);gap:26px}.settings{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:16px}.settings-card{height:100%;padding:20px}.settings-card:nth-child(3),.settings-card:nth-child(4){grid-column:1/-1;height:auto}.settings-card:nth-child(3) .income-list{display:grid;grid-template-columns:1fr 1fr}.results{scroll-margin-top:15px}.age-quick{width:auto}.net-amount strong{font-size:68px}.net-top .net-tag{font-size:9px}.metric{padding:18px}.metric>span{font-size:11px}.metric strong{font-size:27px}.chart{height:270px}.comparison{grid-template-columns:repeat(4,1fr)}.toolbar .subtle{display:none}.assumptions-card{padding:25px}.result-heading{position:relative}.chart-foot{font-size:9px}}
+@media(max-width:540px){body{font-size:14px}.topbar{height:69px;padding:0 18px}.brand{font-size:18px;gap:9px}.brand-mark{height:37px;width:35px;font-size:23px}.brand small{font-size:8px}.local-badge{font-size:9px;padding:5px 8px;gap:5px}main{padding:0 15px}.intro{padding:26px 4px 20px}.eyebrow{font-size:8px;letter-spacing:.1em}.intro h1{font-size:29px;line-height:1.5;letter-spacing:.025em}.mobile-br{display:block}.intro-text{font-size:11px;margin-top:10px;line-height:1.85}.scope-note{padding:11px 12px;font-size:10px;gap:9px}.toolbar{margin:16px 0 17px;gap:11px}.toolbar .tools{gap:1px;width:100%;justify-content:space-between}.btn.plain{font-size:9px;padding:7px 5px}.settings{display:flex;gap:13px}.settings-card{padding:20px;border-radius:14px}.section-heading h2{font-size:16px}.helper{font-size:11px}.field{font-size:12px;gap:7px}.field-grid{gap:13px}.input-wrap{min-height:46px}.input-wrap input{font-size:17px;padding:11px 12px}.input-wrap>span{font-size:11px}.field>input,.field select{font-size:16px;min-height:46px}.optional{font-size:10px}.check,.inline-details summary{font-size:12px}.inline-details summary{line-height:1.7}.check{margin:15px 0}.pension-highlight>span{font-size:11px}.pension-highlight small{font-size:10px}.settings-card:nth-child(3) .income-list{display:flex}.income-row{padding:13px}.income-body button{font-size:12px}.income-body small{font-size:10px}.income-right strong{font-size:15px}.income-right small{font-size:9px}.icon-btn{height:36px;width:30px}.result-heading h2{font-size:18px}.live-badge{font-size:9px}.age-control{padding:15px;gap:15px;border-radius:13px}.age-control>label{gap:10px;font-size:10px}.age-control strong{font-size:26px}.age-control input[type=range]{min-width:130px;height:8px}.age-quick{width:100%;justify-content:space-between;gap:5px}.age-quick button{flex:1;padding:6px 5px;font-size:11px;min-height:31px}.net-card{padding:22px 21px 17px;border-radius:15px}.net-top{font-size:11px;align-items:flex-start;gap:9px;flex-direction:column}.net-tag{font-size:8px;padding:3px 6px}.net-amount strong{font-size:63px}.net-amount>span{font-size:14px}.net-sub{gap:14px;font-size:11px}.net-sub>span:nth-child(2){font-size:9px}.net-bottom{font-size:8px;margin-top:15px;line-height:1.85}.metric-grid{gap:8px;margin:12px 0 15px;grid-template-columns:1fr 1fr}.metric{padding:15px 13px;border-radius:12px}.metric:last-child{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;align-items:center}.metric:last-child strong{grid-row:1/3;grid-column:2/3;text-align:right}.metric:last-child>small{grid-column:1/2}.metric>span{font-size:10px}.metric strong{font-size:25px}.metric strong small{font-size:10px}.metric>small{font-size:9px}.chart-card,.breakdown-card,.compare-card{padding:19px 17px;border-radius:14px;margin-bottom:14px}.card-top{gap:10px}.card-top h3{font-size:14px}.card-top p:not(.eyebrow){font-size:9px;line-height:1.8}.legend{font-size:9px;gap:8px}.chart{height:230px}.chart-foot{font-size:8px;display:block}.chart-foot span{display:block}.chart-foot span:last-child{text-align:right}.breakdown-row{font-size:11px;padding:10px 0}.breakdown-row strong{font-size:12px}.breakdown-row.total strong{font-size:16px}.calculation-details summary{font-size:11px}.comparison{grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}.compare-option strong{font-size:21px}.compare-option{padding:13px 7px;gap:4px}.compare-option .compare-age{font-size:12px}.compare-option small{font-size:10px}.notice-card{padding:16px}.notice-card p{font-size:10px}.yearly-card{padding:20px 16px;margin:7px 0 18px;border-radius:14px}.yearly-card .card-top{flex-direction:column;align-items:flex-start}.yearly-card h2{font-size:17px}.table-note{font-size:9px}.assumptions-card{padding:23px 19px;margin-bottom:25px}.assumptions-card h2{font-size:17px}.assumption-grid{grid-template-columns:1fr;gap:19px;margin-top:20px}.assumption-grid p{font-size:11px}.bottom-notice{font-size:10px;padding:12px}.sources{grid-template-columns:1fr;gap:6px}.source-details summary{font-size:11px}.sources a{font-size:11px}.sources small{font-size:10px}footer{padding:0 20px 28px;gap:17px;justify-content:flex-start}footer>p{flex-basis:100%;order:2}footer .btn{order:3}footer>small{order:4;margin-left:auto}.footer-brand{font-size:17px}.dialog-header{padding:20px 20px 16px}.dialog-body{padding:19px 20px}.dialog-footer{padding:14px 20px}.dialog-body input,.dialog-body select{font-size:16px}.type-help{font-size:11px}.dialog-footer .btn{font-size:12px}.toast{font-size:11px;bottom:17px}}
+@media print{body{background:white;font-size:11px}.topbar{height:65px;padding:0}.topbar nav,.local-badge,.toolbar,.settings,.age-control,.tools,.compare-card,footer .btn,#income-dialog,.toast,.source-details,.notice-card{display:none!important}main{padding:0;max-width:none}.intro{padding-top:20px}.intro h1{font-size:26px}.intro-text{font-size:11px}.workspace{display:block}.results{width:100%}.result-heading{margin-top:20px}.net-card{print-color-adjust:exact;-webkit-print-color-adjust:exact;background:#175b4c!important;color:white!important;break-inside:avoid}.metric-grid{display:grid;grid-template-columns:repeat(3,1fr)}.chart-card{break-inside:avoid}.chart{height:240px}.table-wrap{max-height:none;overflow:visible;border:0}table{font-size:7px}thead th,tbody td{padding:6px 3px;font-size:7px;position:static!important}thead th:first-child,tbody td:first-child{position:static}tbody td button{font-size:7px}.yearly-card{padding:10px;page-break-before:always}thead{display:table-header-group}tr{break-inside:avoid}.assumptions-card{padding:15px;break-before:page}.assumption-grid{grid-template-columns:1fr 1fr;gap:20px}.assumption-grid p{font-size:10px}.scope-note{font-size:9px}a{color:inherit;text-decoration:none}.card{box-shadow:none}footer{padding:0;flex-wrap:wrap}.metric:last-child{display:flex}.metric:last-child strong{text-align:left}.metric:last-child>small{display:block}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+.mobile-results{display:none}@media(max-width:900px){.mobile-results{display:block;position:fixed;right:16px;bottom:max(14px,env(safe-area-inset-bottom));padding:10px 17px;border-radius:28px;background:#176d5b;color:white;font-size:12px;font-weight:600;text-decoration:none;box-shadow:0 4px 15px #153e4930;z-index:5}.toast{bottom:76px}footer{padding-bottom:80px}}@media print{.mobile-results{display:none!important}}
+
+/* v2: concise income entry, existing layout and design tokens retained. */
+.income-shortcuts{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}.income-shortcuts .btn{font-size:12px;padding:8px 11px;min-height:38px}
+.auto-tax-note{padding:10px 12px;background:#eef7f1;border-radius:9px;color:#266347;font-size:12px;line-height:1.7}
+#stream-options{margin-top:10px}#stream-options[open]>summary{margin-bottom:16px}#stream-options .field{margin-bottom:14px}
+#stream-options input:disabled{background:#f2f5f3;color:#69776f}#previous-income-list .income-row{gap:8px}.section-heading .optional{font-size:12px}
+@media(max-width:500px){.intro-text{font-size:14px}.income-shortcuts .btn{flex:1 1 29%}.toolbar .tools{gap:3px}.toolbar .btn{font-size:11px;padding:7px 8px}}
+
+/* Accepted high-value inputs must not clip amounts on narrow screens. */
+.net-amount{flex-wrap:wrap}
+.net-amount strong{max-width:100%;overflow-wrap:anywhere}
+.net-amount.compact strong{font-size:clamp(25px,7vw,46px)}
+.metric strong,.compare-option strong{max-width:100%;overflow-wrap:anywhere;white-space:normal}
+.settings,.settings-card{min-width:0;max-width:100%}
+.settings-card{width:100%}
+.income-row{min-width:0;max-width:100%}
+.income-right{min-width:0;flex-shrink:1}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#results">試算結果へ移動</a>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">¥</span><span>年金と暮らし<small>PENSION & LIFE</small></span></a>
+  <nav aria-label="ページ内ナビゲーション"><a href="#workspace">シミュレーター</a><a href="#yearly">年齢別一覧</a><a href="#assumptions">計算の前提</a></nav>
+  <span class="local-badge"><i aria-hidden="true"></i>端末内で計算</span>
+</header>
+<main>
+<section class="intro">
+  <div><p class="eyebrow">RETIREMENT PLANNING / 日本の制度をもとに</p>
+  <h1>これからの収入を、<br class="mobile-br">手取りで見通す。</h1>
+  <p class="intro-text">収入の種類と金額を入れると、所得税・住民税・社会保険料・手取りを自動計算。税額を調べて入力する必要はありません。</p></div>
+  <div class="intro-stamp"><span>制度確認日</span><strong>2026.09.06</strong><small>個人向け・概算モデル</small></div>
+</section>
+<div class="scope-note"><span class="info-icon" aria-hidden="true">i</span><p><strong>収入だけで始められる、本人分の概算です。</strong> 初期条件は65歳・東京／新宿区・単身・扶養なし。年齢や加入保険で結果が変わります。 税制・料率は固定し、各年齢を12か月として計算します。将来の税制変更・年金改定や誕生月の月割りは反映しません。<a href="#assumptions">詳しい前提</a></p></div>
+<div class="toolbar" id="workspace">
+  <div><span id="sample-badge" class="pill">収入を入力してください</span><span id="save-status" class="subtle">サンプルの収入は混ざりません</span></div>
+  <div class="tools"><button id="save-local" class="btn plain">この端末に保存</button><button id="export-json" class="btn plain">設定を書き出す</button><button id="import-json" class="btn plain">読み込む</button><button id="clear-inputs" class="btn plain">ゼロから入力</button><button id="reset" class="btn plain">サンプルを見る</button></div>
+  <input id="import-file" type="file" accept="application/json,.json" hidden>
+</div>
+<div class="workspace">
+<aside class="settings" aria-label="試算条件">
+  <section class="card settings-card">
+    <div class="section-heading"><span class="step">01</span><h2>年齢・期間 <span class="optional">任意</span></h2></div>
+    <p class="helper">そのままなら65〜95歳。各収入は指定した期間に受け取る前提です。</p>
+    <div class="field-grid">
+      <label class="field">開始年齢<div class="input-wrap"><input id="start-age" data-field="startAge" type="number" min="20" max="100" step="1" inputmode="numeric"><span>歳</span></div></label>
+      <label class="field">終了年齢<div class="input-wrap"><input id="end-age" data-field="endAge" type="number" min="20" max="110" step="1" inputmode="numeric"><span>歳</span></div></label>
+      <label class="field wide">毎月の生活費 <span class="optional">任意・収支比較用</span><div class="input-wrap"><input id="living" data-field="monthlyLiving" data-scale="10000" type="number" min="0" max="10000" step="0.0001" inputmode="decimal"><span>万円 / 月</span></div></label>
+    </div>
+  </section>
+  <section class="card settings-card">
+    <div class="section-heading"><span class="step">02</span><h2>年金の見込額</h2><span class="small-tag">税引前</span></div>
+    <p class="helper"><strong>65歳開始時の見込額</strong>を入力。基礎・厚生の内訳が不明、または受給中の実額だけを入力するときは、この2欄を0にして下の「受取年金」を使ってください。</p>
+    <div class="field-grid">
+      <label class="field wide">老齢基礎年金<div class="input-wrap"><input id="basic-pension" data-field="pension.basic" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <label class="field wide">老齢厚生年金 <span class="optional">報酬比例部分</span><div class="input-wrap"><input id="employee-pension" data-field="pension.employee" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <label class="field wide">受給を始める年齢<select id="claim-age" data-field="pension.claimAge"></select></label>
+    </div>
+    <div class="pension-highlight"><span>65歳開始との年金額の比率</span><strong id="pension-factor">100.0%</strong><small>在職中は厚生年金の支給停止・増額制限が別途かかります。</small></div>
+    <details class="inline-details"><summary>生年月日・在職中の設定</summary>
+      <label class="field">生年月日の区分<select id="cohort" data-field="pension.cohort"><option value="modern">1962年4月2日以降</option><option value="earlier">1952年4月2日〜1962年4月1日</option><option value="old">1952年4月1日以前</option></select></label>
+      <label class="check"><input id="working-adjustment" data-field="pension.workingAdjustment" type="checkbox">在職老齢年金の支給停止を反映する</label>
+      <p class="helper">基礎・厚生年金を同じ年齢で開始するモデルです。特別支給、加給年金・振替加算、他の年金との併給調整、在職定時改定は対象外です。支給決定済みの年額をそのまま使う場合は、上の金額を0にして「受取年金」欄に実受取額を追加してください。</p>
+    </details>
+  </section>
+  <section class="card settings-card">
+    <div class="section-heading"><span class="step">03</span><h2>収入を入力</h2><span id="income-count" class="small-tag">0件</span></div>
+    <p class="helper">給与・副業・家賃・配当・個人年金などを、受け取る期間ごとに追加できます。<strong>配偶者の収入は混ぜないでください。</strong></p>
+    <div class="income-shortcuts" aria-label="よく使う収入を追加"><button class="btn secondary" data-new-type="public">＋ 受取年金</button><button class="btn secondary" data-new-type="salary">＋ 給与</button><button class="btn secondary" data-new-type="misc">＋ 副業</button><button class="btn secondary" data-new-type="rental">＋ 家賃</button><button class="btn secondary" data-new-type="dividend">＋ 配当</button></div>
+    <div id="income-list" class="income-list"></div>
+    <button id="add-income" class="btn add">＋ 収入を追加する</button>
+  </section>
+  <section class="card settings-card">
+    <div class="section-heading"><span class="step">04</span><h2>自動計算の条件</h2><span class="small-tag">税額入力なし</span></div><p class="helper">標準条件でよければ変更不要です。保険料や追加控除の上書きは任意です。</p>
+    <label class="field">社会保険料の計算方法<select id="insurance-mode" data-field="insurance.mode"><option value="tokyo">自動概算：東京・新宿区／単身</option><option value="manual">保険料の年額を直接入力</option></select></label>
+    <p class="helper" id="insurance-description">給与の加入区分に合わせて会社の社会保険・国保を切り替え、75歳から後期高齢者医療に切り替えます。</p>
+    <div id="manual-insurance" class="field-grid" hidden>
+      <label class="field wide">65歳未満の保険料総額<div class="input-wrap"><input data-field="insurance.manualUnder65" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <label class="field wide">65〜74歳の保険料総額<div class="input-wrap"><input data-field="insurance.manual65" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <label class="field wide">75歳以上の保険料総額<div class="input-wrap"><input data-field="insurance.manual75" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <p class="helper wide">健康保険・介護・年金・雇用保険など、本人が負担する年間総額です。自動算定に加算せず、置き換えます。保険料の例示額が入っています。</p>
+    </div>
+    <label class="check"><input id="lagged" data-field="tax.lagged" type="checkbox">住民税・国保等に前年の所得を反映</label>
+    <details class="inline-details" id="previous-details"><summary>前年の収入を入力する（退職直後など）</summary>
+      <p class="helper">未指定なら初年度と同じ収入を仮定します。金額だけで初年度の住民税・保険料も算定します。前年の年金は<strong>実際の受取額</strong>を入力してください。</p>
+      <label class="check"><input id="previous-enabled" data-field="previous.enabled" type="checkbox">入力した前年収入を使う</label>
+      <div id="previous-income-list" class="income-list"></div><button id="add-previous-income" class="btn add">＋ 前年の収入を追加する</button>
+      <p class="helper">有効にして収入を追加しなければ「前年収入0円」です。前年の保険料は前年と同じ収入水準で推定します。前々年の情報・納付月は再現しません。</p>
+    </details>
+    <details class="inline-details"><summary>扶養・医療費などの追加控除</summary>
+      <label class="field">所得税の追加所得控除<div class="input-wrap"><input data-field="tax.extraIncomeDeduction" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <label class="field">住民税の追加所得控除<div class="input-wrap"><input data-field="tax.extraResidentDeduction" data-scale="10000" type="number" min="0" step="0.0001" inputmode="decimal"><span>万円 / 年</span></div></label>
+      <label class="field">追加控除を使う最後の年齢<div class="input-wrap"><input data-field="tax.deductionEndAge" type="number" min="20" max="110" step="1" inputmode="numeric"><span>歳</span></div></label>
+      <p class="helper">基礎控除・計算した社会保険料控除は自動で反映します。重ねて入力しないでください。ここは所得控除のみで、住宅ローン控除や寄附金税額控除の欄ではありません。追加控除額は手取りから支出としては引きません。</p>
+    </details>
+    <details class="inline-details"><summary>料率・住民税の詳細設定</summary><div id="rate-fields" class="field-grid"></div>
+      <p class="helper">健保・介護・支援金・厚生年金は<strong>労使合計の料率</strong>を入力し、本人分は折半します。雇用保険のみ本人負担率です。国保・後期・65歳以上の介護の自治体別料率を変更する場合は、年額の直接入力を使ってください。</p>
+    </details>
+  </section>
+</aside>
+<section id="results" class="results" aria-label="試算結果">
+  <div id="errors" class="error-box" role="alert" hidden></div>
+  <div id="result-content">
+    <div class="result-heading"><h2>シミュレーション結果</h2><span class="live-badge"><i aria-hidden="true"></i>入力に合わせて更新</span></div>
+    <div class="age-control card"><label for="selected-age">見たい年齢<strong id="selected-age-text">65<span>歳</span></strong></label><input id="selected-age" type="range" min="60" max="95" value="65" step="1"><div id="age-quick" class="age-quick"></div></div>
+    <section class="net-card" aria-label="手取りの概算">
+      <div class="net-top"><span id="net-caption">65歳の手取り / 年平均</span><span class="net-tag">自動計算・概算</span></div>
+      <div class="net-amount"><strong id="net-monthly">—</strong><span>万円 / 月</span></div>
+      <div class="net-sub"><span id="net-yearly">年額 — 万円</span><span id="net-ratio">—</span></div>
+      <div class="net-bottom"><span>年金＋そのほかの収入 − 必要な支出 − 税金 − 社会保険料</span><span id="principal-note"></span></div>
+    </section>
+    <div class="metric-grid">
+      <section class="card metric"><span>収入の合計 / 年</span><strong id="gross-total">—</strong><small>税引前・取崩しを除く</small></section>
+      <section class="card metric"><span>税・社会保険料 / 年</span><strong id="burden-total">—</strong><small id="burden-detail">—</small></section>
+      <section class="card metric"><span>生活費を引いた収支 / 月</span><strong id="monthly-balance">—</strong><small id="balance-detail">—</small></section>
+    </div>
+    <section class="card chart-card"><div class="card-top"><div><h3>年齢ごとの収入と手取り</h3><p>同じ制度・物価を前提とした、年額の比較</p></div><div class="legend"><span><i class="gross-dot"></i>収入</span><span><i class="net-dot"></i>手取り</span></div></div><div id="chart" class="chart"></div><div class="chart-foot"><span>グラフや年齢ボタンを押すと内訳を確認できます。</span><span>単位：万円 / 年</span></div></section>
+    <section class="card breakdown-card"><div class="card-top"><div><h3 id="breakdown-title">65歳のお金の内訳</h3><p>収入・支出・税負担を分けて表示</p></div><span class="small-tag">年額</span></div><div id="breakdown"></div><details class="calculation-details"><summary>税金・社会保険料の計算内訳を見る</summary><div id="calculation-details"></div></details></section>
+    <section class="card compare-card"><div class="card-top"><div><h3>受給開始年齢を変えて比較</h3><p id="comparison-description">試算期間の累計手取り</p></div></div><div id="comparison" class="comparison"></div><p class="helper">受給前の給与なども含む同じ期間の合計です。期間中の生存を仮定し、将来の制度改正・物価変動・在職定時改定は反映していません。受給開始の有利不利を確定するものではありません。</p></section>
+    <section class="notice-card"><h3>適用中の仮定・追加確認が必要なこと</h3><div id="warnings"></div></section>
+  </div>
+</section>
+</div>
+<section id="yearly" class="card yearly-card"><div class="card-top"><div><p class="eyebrow">YEARLY CASH FLOW</p><h2>年齢別の収入・手取り一覧</h2><p>横にスクロールすると、支出・税・保険料・取崩しまで確認できます。</p></div><div class="tools"><button id="export-csv" class="btn secondary">CSVを書き出す</button><button id="print" class="btn secondary">印刷する</button></div></div><div class="table-wrap"><table><caption class="sr-only">すべての金額は万円単位。各年齢を12か月とした固定制度モデルの概算。</caption><thead><tr><th scope="col">年齢</th><th scope="col">公的年金等</th><th scope="col">給与</th><th scope="col">その他収入</th><th scope="col">収入合計</th><th scope="col">現金支出</th><th scope="col">所得税等</th><th scope="col">住民税等</th><th scope="col">社会保険料</th><th scope="col">年間手取り</th><th scope="col">月額手取り</th><th scope="col">元本取崩し</th><th scope="col">生活費後収支</th></tr></thead><tbody id="yearly-body"></tbody></table></div><p class="table-note">金額は万円表示です。所得税等・住民税等には投資収入や退職金等にかかる税額も含みます。元本取崩しは所得ではなく、手取りには加えず生活費後収支にのみ加算します。</p></section>
+<section id="assumptions" class="card assumptions-card"><p class="eyebrow">METHODOLOGY & SOURCES</p><h2>計算の前提と対象範囲</h2><div class="assumption-grid">
+  <div><h3>年齢ごとの比較モデルです</h3><p>日本の居住者本人を対象に、2026年分の所得税、同所得に対応する住民税の給与所得控除、2026年度の保険料率・年金支給停止基準を全期間に固定しています。2026年の実際の暦年決算でも、将来年の法定税額予測でもありません。2028年以降の既知の控除変更も固定モデルには織り込みません。</p><p>誕生月・受給初月・納付月・年度途中の料率改定は月割りしません。「月額手取り」は年額を12で割った平均で、実際の振込額ではありません。所得税等は所得税と復興税の計算額で、年末調整・確定申告の最終納付時の100円未満切捨てや源泉徴収済額との精算は再現しません。</p></div>
+  <div><h3>お金と所得を混同しません</h3><p>収入の種類に応じ、給与所得控除、公的年金等控除、給与と年金の所得金額調整控除を適用します。個人年金の払込保険料相当額などの税務上の経費と、その年に実際に支払う現金支出は別入力です。一時所得の50万円控除は対象収入を合算して1回だけ適用します。</p><p>配当と源泉徴収あり株式は申告不要、源泉徴収なし株式・国内FX等は申告分離として区別します。源泉徴収税を差し引いた後、もう一度総合課税することはありません。元本取崩しは収入と区別します。</p></div>
+  <div><h3>保険料・住民税の扱い</h3><p>自動保険料は東京の協会けんぽ、新宿区の国保・65歳以上の介護、東京都の後期高齢者医療を使う単身世帯モデルです。低所得の均等割軽減も単身として概算します。扶養・生活保護・障害・旧被扶養者・任意継続・国保組合・免除などの特例判定は行いません。</p><p>会社の社会保険への加入は給与欄で指定し、年収だけから資格を判定しません。標準報酬は給与年額から推定し、賞与は入力回数で等分します。前年反映は年単位であり、納付時期の厳密な再現ではありません。65歳以上の介護保険料は2026年度の特例に合わせ、給与所得を改正前の控除額で別計算します。この特例も固定モデル内では全期間に固定しており、将来年度の制度予測ではありません。</p></div>
+  <div><h3>自動計算しないもの</h3><p>配偶者・家族の税額、損益通算・繰越、青色申告特別控除の判定、住宅ローン・配当・外国税・寄附金の税額控除、事業税・消費税、相続税・贈与税、超高所得者の追加課税は対象外です。土地建物売却・国内FX・源泉徴収なし株式は、入力した利益から税額を自動算定します。土地建物の居住用特別控除・軽減税率は対象外です。</p><p>所得控除の未使用分は総合所得→短期土地建物→長期土地建物→株式→FX→退職の順に自動適用します。退職金は単独受取の一般・短期・短期役員に対応しますが、複数受取・控除期間重複・障害退職の特例は未対応です。年金の併給・受給資格や受給額の認定も行いません。</p></div>
+</div><div class="bottom-notice"><strong>生活設計のための概算です。</strong>申告・納付・年金請求を判断する前には、税務署・自治体・年金事務所や税理士等で個別条件を確認してください。画面の例示額は利用者の実額ではありません。</div><details class="source-details"><summary>参照した公式資料（確認日：2026年9月6日）</summary><div id="sources" class="sources"></div></details></section>
+</main>
+<footer><div class="brand footer-brand"><span class="brand-mark" aria-hidden="true">¥</span><span>年金と暮らし<small>PENSION & LIFE</small></span></div><p>入力内容は計算のために外部送信しません。<br>「この端末に保存」を押した場合だけ、このブラウザーに保存します。</p><button id="delete-saved" class="btn plain">端末の保存データを削除</button><small>v2.0.1 · 自動税計算・概算版 · 2026-09-06</small></footer>
+<dialog id="income-dialog"><form id="income-form">
+<div class="dialog-header"><div><p class="eyebrow">INCOME → TAX → TAKE-HOME</p><h2 id="dialog-title">収入を追加</h2></div><button id="close-dialog" type="button" class="icon-btn" aria-label="閉じる">×</button></div>
+<div class="dialog-body">
+<label class="field">収入の種類<select id="stream-type" name="type"></select></label><p id="type-help" class="type-help"></p>
+<div class="field-grid"><label class="field" id="amount-label">収入額<div class="input-wrap"><input id="stream-amount" name="amount" type="number" min="0" step="0.0001" inputmode="decimal" required><span>万円</span></div></label><label class="field">金額の単位<select id="amount-unit"><option value="year">年額</option><option value="month">月額（入力額 × 12）</option></select><small class="helper">単位は入力額に適用します。入力欄の数字自体は変わりません。</small></label></div>
+<p class="auto-tax-note">所得税・住民税・保険料は自動計算。税額の入力欄はありません。</p>
+<details id="stream-options" class="inline-details"><summary>期間・経費・加入保険などの条件</summary>
+<label class="field">名前 <span class="optional">任意</span><input id="stream-name" name="name" type="text" maxlength="100" required></label>
+<div class="field-grid"><label class="field">受取開始<div class="input-wrap"><input id="stream-start" name="start" type="number" min="0" max="110" step="1" required inputmode="numeric"><span>歳</span></div></label><label class="field">受取終了 <span class="optional">この年齢を含む</span><div class="input-wrap"><input id="stream-end" name="end" type="number" min="0" max="110" step="1" required inputmode="numeric"><span>歳</span></div></label></div>
+<div id="stream-extra"></div></details><p class="helper" id="income-assumptions"></p><div id="stream-error" class="error-box" role="alert" hidden></div>
+</div><div class="dialog-footer"><button id="cancel-dialog" class="btn secondary" type="button">キャンセル</button><button class="btn primary" type="submit">自動計算に反映する</button></div></form></dialog>
+<a class="mobile-results" href="#results">手取りを見る ↓</a>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<noscript><div class="no-script">このシミュレーターにはJavaScriptが必要です。JavaScriptを有効にしてブラウザーで開いてください。</div></noscript>
+<script>
+/* 年金と暮らし — calculation engine, reviewed against official sources 2026-09-06.
+ * Units inside the engine: JPY / whole age-years. No network, no dependencies.
+ * A fixed-policy planning model, NOT a tax-return or exact calendar-year calculator.
+ * Source references and exclusions are shown in the app and README.md.
+ */
+(function (root) {
+  'use strict';
+  const TYPES = {
+    salary: '給与・賞与', public: '受給額確定の公的年金・企業年金・iDeCo年金', private: '個人年金保険',
+    business: '事業収入', rental: '家賃・不動産賃貸', misc: '副業・雑所得',
+    dividend: '上場株式の配当（申告不要）', stock: '株式の売却益（源泉徴収あり・申告不要）',
+    interest: '預金利息（源泉分離）', nisa: 'NISAの利益（国内非課税分）',
+    nontax: '遺族・障害年金などの非課税収入', temporary: '保険満期金などの一時所得',
+    retirement: '退職金・iDeCo一時金（単独受取）',
+    fx: '国内FX・対象先物の利益（申告分離）', stockDeclared: '株式売却益（源泉徴収なし・申告分離）',
+    propertyLong: '土地・建物の売却益（長期・一般）', propertyShort: '土地・建物の売却益（短期・一般）',
+    assetLong: '金などの売却益（総合課税・長期）', assetShort: '金などの売却益（総合課税・短期）',
+    principal: '預貯金・投資元本の取崩し（収入外）'
+  };
+  const SOURCES = [
+    ['2026年分の基礎控除・給与所得控除', '国税庁', 'https://www.nta.go.jp/users/gensen/2026kiso/index.htm'],
+    ['給与所得の金額表（2026年分）', '国税庁', 'https://www.nta.go.jp/publication/pamph/koho/kurashi/html/02_1.htm'],
+    ['公的年金等の課税関係', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1600.htm'],
+    ['給与と年金の所得金額調整控除', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1411.htm'],
+    ['所得税の税率', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/2260.htm'],
+    ['個人年金保険の必要経費', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1610.htm'],
+    ['株式・配当・利子と税', '国税庁', 'https://www.nta.go.jp/publication/pamph/koho/kurashi/html/04_5.htm'],
+    ['一時所得', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1490.htm'],
+    ['退職所得と控除', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1420.htm'],
+    ['短期退職手当', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/gensen/2740.htm'],
+    ['繰上げ受給', '日本年金機構', 'https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-01.html'],
+    ['繰下げ受給・在職中の平均支給率', '日本年金機構', 'https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/kuriage-kurisage/20140421-02.html'],
+    ['在職老齢年金（2026年4月以降）', '日本年金機構', 'https://www.nenkin.go.jp/service/jukyu/seido/roureinenkin/zaishoku/20150401-01.html'],
+    ['在職老齢年金の対象となる年金額', '厚生労働省', 'https://www.mhlw.go.jp/stf/nenkin_shikumi_010.html'],
+    ['健康保険・厚生年金の等級と料率', '協会けんぽ（東京）', 'https://www.kyoukaikenpo.or.jp/assets/R8_13tokyo.pdf'],
+    ['雇用保険料率', '厚生労働省', 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000108634.html'],
+    ['国民年金保険料', '日本年金機構', 'https://www.nenkin.go.jp/service/kokunen/hokenryo/hokenryo.html'],
+    ['個人住民税・控除・調整控除', '東京都主税局', 'https://www.tax.metro.tokyo.lg.jp/kazei/life/kojin_ju'],
+    ['2026年所得に対応する住民税の給与所得控除', '福岡市', 'https://www.city.fukuoka.lg.jp/zaisei/shisanzei/life/R9_kaisei.html'],
+    ['住民税の非課税基準', '新宿区', 'https://www.city.shinjuku.lg.jp/hoken/file04_03_00001.html'],
+    ['国民健康保険料（2026年度）', '新宿区', 'https://www.city.shinjuku.lg.jp/hoken/hoken01_001028.html'],
+    ['国保均等割の軽減', '新宿区', 'https://www.city.shinjuku.lg.jp/hoken/hoken01_002030.html'],
+    ['後期高齢者医療保険料（2026年度）', '新宿区・東京都', 'https://www.city.shinjuku.lg.jp/hoken/koreiiryo01_002021.html'],
+    ['後期高齢者医療の公式計算例', '東京都後期高齢者医療広域連合', 'https://www.tokyo-ikiiki.net/_res/projects/default_project/_page_/001/001/975/r8keisanrei.pdf'],
+    ['FX・先物取引の申告分離課税', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/shotoku/1522.htm'],
+    ['土地建物の長期譲渡所得', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/joto/3208.htm'],
+    ['土地建物の短期譲渡所得', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/joto/3211.htm'],
+    ['金などの総合課税の譲渡所得', '国税庁', 'https://www.nta.go.jp/taxes/shiraberu/taxanswer/joto/3152.htm'],
+    ['所得控除を差し引く順序', '国税庁', 'https://www.nta.go.jp/law/joho-zeikaishaku/shotoku/joto-sanrin/040213/02.htm'],
+    ['2026年分改正の原資料', '国税庁', 'https://www.nta.go.jp/publication/pamph/gensen/2026kaisei.pdf'],
+    ['65歳以上の介護保険料（2026年度）', '新宿区', 'https://www.city.shinjuku.lg.jp/fukushi/file07_02_00006.html']
+  ];
+  const ROUND = x => Math.round(x);
+  const FLOOR = (x, unit = 1) => Math.floor((x + 1e-8) / unit) * unit;
+  const NONNEG = x => Math.max(0, x);
+  const SUM = xs => xs.reduce((a,b) => a+b, 0);
+  const clone = x => JSON.parse(JSON.stringify(x));
+  function makeStream(type = 'misc', id = 'income-1') {
+    return { id, name: TYPES[type], type, amount: 0, start: 65, end: 95, expense: 0,
+      taxExpense: 0, bonus: 0, bonusCount: 2, insured: true, employment: true,
+      serviceYears: type==='retirement'?null:30, retirementKind: 'normal', cashMode: ['business','rental','misc'].includes(type) ? 'same' : 'separate' };
+  }
+  const DEFAULTS = {
+    version: 2, startAge: 60, endAge: 95, selectedAge: 65, monthlyLiving: 200000,
+    previous: {enabled:false, streams:[]},
+    pension: { basic: 840000, employee: 1560000, claimAge: 65, cohort: 'modern',
+      workingAdjustment: true },
+    tax: { extraIncomeDeduction: 0, extraResidentDeduction: 0, deductionEndAge: 95,
+      lagged: true,
+      localRate: 10, localFixed: 5000, localExempt: 450000, adjustmentDifference: 50000 },
+    insurance: { mode: 'tokyo', healthRate: 9.85, careEmployeeRate: 1.62,
+      supportRate: 0.23, employmentRate: 0.5, pensionRate: 18.3,
+      nationalPensionMonthly: 17920, workingThreshold: 650000,
+      manualUnder65: 240000, manual65: 260000, manual75: 220000 },
+    streams: [
+      {...makeStream('salary', 'income-1'), name: '再雇用の給与', amount: 3000000, bonus: 600000, start: 60, end: 69},
+      {...makeStream('dividend', 'income-2'), name: '配当収入', amount: 240000, start: 60, end: 95}
+    ]
+  };
+
+  const SAMPLE = clone(DEFAULTS);
+  DEFAULTS.startAge = 65; DEFAULTS.monthlyLiving = 0;
+  DEFAULTS.pension.basic = 0; DEFAULTS.pension.employee = 0; DEFAULTS.streams = [];
+
+  // NTA 2026 salary-income table. Multiple employers must be aggregated first.
+  function salaryIncome(gross) {
+    const a = FLOOR(NONNEG(gross));
+    if (a < 741000) return 0;
+    if (a < 2191000) return a - 740000;
+    if (a < 2193000) return 1451000;
+    if (a < 2196000) return 1453000;
+    if (a < 2200000) return 1456000;
+    if (a < 3600000) return ROUND(FLOOR(a / 4, 1000) * 2.8 - 80000);
+    if (a < 6600000) return ROUND(FLOOR(a / 4, 1000) * 3.2 - 440000);
+    if (a < 8500000) return FLOOR(a * .9 - 1100000);
+    return a - 1950000;
+  }
+  function basicDeduction(income) {
+    if (income <= 4890000) return 1040000;
+    if (income <= 6550000) return 670000;
+    if (income <= 23500000) return 620000;
+    if (income <= 24000000) return 480000;
+    if (income <= 24500000) return 320000;
+    if (income <= 25000000) return 160000;
+    return 0;
+  }
+  function residentBasic(income) {
+    if (income <= 24000000) return 430000;
+    if (income <= 24500000) return 290000;
+    if (income <= 25000000) return 150000;
+    return 0;
+  }
+  function pensionIncome(gross, age, otherIncome) {
+    let deduction;
+    if (age >= 65 && gross < 3300000) deduction = 1100000;
+    else if (age < 65 && gross < 1300000) deduction = 600000;
+    else if (gross < 4100000) deduction = gross * .25 + 275000;
+    else if (gross < 7700000) deduction = gross * .15 + 685000;
+    else if (gross < 10000000) deduction = gross * .05 + 1455000;
+    else deduction = 1955000;
+    // Apply high-income reduction BEFORE flooring at zero.
+    deduction -= otherIncome > 20000000 ? 200000 : otherIncome > 10000000 ? 100000 : 0;
+    return FLOOR(NONNEG(gross - deduction));
+  }
+  function salaryPensionAdjustment(salary, pension) {
+    return NONNEG(Math.min(salary,100000) + Math.min(pension,100000) - 100000);
+  }
+  function progressiveTax(taxable) {
+    const v = FLOOR(NONNEG(taxable),1000);
+    const table = [[1950000,.05,0],[3300000,.1,97500],[6950000,.2,427500],
+      [9000000,.23,636000],[18000000,.33,1536000],[40000000,.4,2796000],[Infinity,.45,4796000]];
+    const band = table.find(row => v < row[0]);
+    return FLOOR(v * band[1] - band[2]);
+  }
+  // health-insurance monthly remuneration table; pension clips to grades 88k..650k.
+  const STANDARD = [58000,68000,78000,88000,98000,104000,110000,118000,126000,134000,
+    142000,150000,160000,170000,180000,190000,200000,220000,240000,260000,280000,
+    300000,320000,340000,360000,380000,410000,440000,470000,500000,530000,
+    560000,590000,620000,650000,680000,710000,750000,790000,830000,880000,
+    930000,980000,1030000,1090000,1150000,1210000,1270000,1330000,1390000];
+  const LOWER = [0,63000,73000,83000,93000,101000,107000,114000,122000,130000,
+    138000,146000,155000,165000,175000,185000,195000,210000,230000,250000,270000,
+    290000,310000,330000,350000,370000,395000,425000,455000,485000,515000,
+    545000,575000,605000,635000,665000,695000,730000,770000,810000,855000,
+    905000,955000,1005000,1055000,1115000,1175000,1235000,1295000,1355000];
+  function standardMonth(monthly, pension = false) {
+    let i = 0;
+    while (i + 1 < LOWER.length && monthly >= LOWER[i+1]) i++;
+    return pension ? Math.min(650000, Math.max(88000, STANDARD[i])) : STANDARD[i];
+  }
+  function payroll(config, age) {
+    const rows = config.streams.filter(s => s.type === 'salary' && s.start <= age && age <= s.end && s.amount > 0);
+    const insuredRows = rows.filter(s => s.insured);
+    const insured = insuredRows.length > 0;
+    const regular = SUM(insuredRows.map(s => s.amount - s.bonus)) / 12;
+    const bonusHealth = Math.min(5730000, SUM(insuredRows.map(s => FLOOR(s.bonus / s.bonusCount,1000) * s.bonusCount)));
+    const bonusMonths = Array(12).fill(0);
+    const assumedMonths = {1:[11], 2:[5,11], 3:[3,7,11]};
+    for (const s of insuredRows) for (const month of assumedMonths[s.bonusCount])
+      bonusMonths[month] += FLOOR(s.bonus / s.bonusCount,1000);
+    const bonusPension = SUM(bonusMonths.map(value => Math.min(1500000,value)));
+    return { insured, gross: SUM(rows.map(s=>s.amount)),
+      employmentGross: SUM(rows.filter(s=>s.employment).map(s=>s.amount)),
+      healthBase: insured ? standardMonth(regular) * 12 + bonusHealth : 0,
+      pensionBase: insured ? standardMonth(regular,true) * 12 + bonusPension : 0,
+      workMonthly: insured ? standardMonth(regular,true) + bonusPension / 12 : 0 };
+  }
+  function pensionFactor(claimAge, cohort) {
+    const early = cohort === 'modern' ? .004 : .005;
+    return claimAge < 65 ? 1 - (65-claimAge)*12*early : 1+(claimAge-65)*12*.007;
+  }
+  function stoppedPension(employeeAnnual, workMonthly, threshold = 650000) {
+    return Math.min(employeeAnnual, NONNEG((employeeAnnual / 12 + workMonthly - threshold) / 2 * 12));
+  }
+  function publicPension(config, age) {
+    const p = config.pension;
+    if (age < p.claimAge) return { basic:0, employee:0, stopped:0, deferred:0 };
+    const factor = pensionFactor(p.claimAge, p.cohort);
+    const baseEmployee = p.employee * (p.claimAge < 65 ? factor : 1);
+    let deferred = 0;
+    if (p.claimAge > 65) {
+      // Each input age-year stands for 12 equal months. Pension amount itself is held fixed.
+      for (let a=65; a<p.claimAge; a++) {
+        const pay = payroll(config,a);
+        const stopped = p.workingAdjustment && pay.insured
+          ? stoppedPension(p.employee,pay.workMonthly,config.insurance.workingThreshold) : 0;
+        deferred += (p.employee-stopped)*.084;
+      }
+    }
+    const pay = payroll(config,age);
+    const stopped = p.workingAdjustment && pay.insured
+      ? stoppedPension(baseEmployee,pay.workMonthly,config.insurance.workingThreshold) : 0;
+    return {basic:ROUND(p.basic*factor),employee:ROUND(baseEmployee-stopped+deferred),
+      stopped:ROUND(stopped),deferred:ROUND(deferred)};
+  }
+  function retirementIncome(gross, years, kind = 'normal') {
+    const y = Math.ceil(years);
+    const deduction = y <= 20 ? Math.max(800000,y*400000) : 8000000+(y-20)*700000;
+    const excess = NONNEG(gross-deduction);
+    const income = kind === 'officer' && y<=5 ? excess
+      : y<=5 && excess>3000000 ? 1500000+excess-3000000 : excess/2;
+    // Keep the unrounded income for threshold tests; round taxable amounts only later.
+    return {deduction,income:FLOOR(income),taxable:FLOOR(income,1000)};
+  }
+  const SEPARATE_ORDER = ['propertyShort','propertyLong','stockDeclared','fx'];
+  const SEPARATE_RATES = {
+    propertyShort: {national:30,local:9}, propertyLong:{national:15,local:5},
+    stockDeclared:{national:15,local:5}, fx:{national:15,local:5}
+  };
+  function rawYear(config, age) {
+    const publicAmounts = publicPension(config,age);
+    const pay = payroll(config,age);
+    let gross = publicAmounts.basic+publicAmounts.employee, expenses = 0, principal = 0;
+    let otherPublic = 0, business = 0, rental = 0, miscellaneous = 0, temporaryNet = 0;
+    let assetShortNet=0,assetLongNet=0,sourceTaxNat = 0, sourceTaxLocal = 0;
+    let retirement = 0, retirementGross = 0;
+    const separated={propertyShort:0,propertyLong:0,stockDeclared:0,fx:0};
+    const breakdown = [], warnings = [];
+    if (publicAmounts.basic) breakdown.push({name:'老齢基礎年金',type:'pension',gross:publicAmounts.basic});
+    if (publicAmounts.employee) breakdown.push({name:'老齢厚生年金',type:'pension',gross:publicAmounts.employee});
+    for (const s of config.streams.filter(s => s.start<=age && age<=s.end)) {
+      if (s.type === 'principal') { principal += s.amount; continue; }
+      gross += s.amount;
+      breakdown.push({name:s.name,type:s.type,gross:s.amount});
+      if (['business','rental','misc','private','temporary'].includes(s.type))
+        expenses += s.cashMode==='same' ? s.taxExpense : s.expense;
+      const profit = s.amount-s.taxExpense;
+      if (['business','rental','misc','private'].includes(s.type) && profit<0)
+        warnings.push('赤字の収入があります。他の所得区分との損益通算・翌年への繰越は対象外です。税額は損失通算前の概算です。');
+      switch(s.type) {
+        case 'public': otherPublic += s.amount; break;
+        case 'business': business += profit; break;
+        case 'rental': rental += profit; break;
+        case 'misc': case 'private': miscellaneous += profit; break;
+        case 'temporary': temporaryNet += profit; break;
+        case 'dividend': case 'stock': case 'interest':
+          // Integer ratios avoid 1.021 / .15315 floating-point boundary undercharges.
+          sourceTaxNat += FLOOR(s.amount*15315/100000); sourceTaxLocal += FLOOR(s.amount/20); break;
+        case 'retirement':
+          retirement += retirementIncome(s.amount,s.serviceYears,s.retirementKind).income;
+          retirementGross += s.amount; break;
+        case 'fx': case 'stockDeclared': case 'propertyLong': case 'propertyShort':
+          separated[s.type] += s.amount; break;
+        case 'assetShort': assetShortNet += s.amount; break;
+        case 'assetLong': assetLongNet += s.amount; break;
+      }
+    }
+    business = NONNEG(business); rental=NONNEG(rental); miscellaneous=NONNEG(miscellaneous);
+    const temporary = NONNEG(temporaryNet-500000)/2;
+    // 500k is shared by short and long asset gains; it is DISTINCT from the temporary-income allowance.
+    const assetShort = NONNEG(assetShortNet-500000);
+    const assetLong = NONNEG(assetLongNet-NONNEG(500000-assetShortNet))/2;
+    const assetIncome = assetShort+assetLong;
+    const separateIncome = SUM(Object.values(separated));
+    const salary = salaryIncome(pay.gross);
+    const publicGross = publicAmounts.basic + publicAmounts.employee + otherPublic;
+    const otherIncome = salary + business + rental + miscellaneous + temporary + assetIncome + separateIncome + retirement;
+    const pensionTaxable = pensionIncome(publicGross,age,otherIncome);
+    const adjustment = salaryPensionAdjustment(salary,pensionTaxable);
+    const generalIncome = FLOOR(salary+pensionTaxable-adjustment+business+rental+miscellaneous+temporary+assetIncome);
+    const totalIncome = generalIncome+separateIncome+retirement;
+    const insuranceIncome = generalIncome+separateIncome; // Retirement and declaration-excluded investments are excluded.
+    return {age,gross:ROUND(gross),expenses:ROUND(expenses),principal:ROUND(principal),pay,publicAmounts,
+      publicGross,salary,salaryGross:pay.gross,pensionTaxable,adjustment,business,rental,miscellaneous,temporary,
+      assetShort,assetLong,assetIncome,separated,generalIncome,totalIncome,insuranceIncome,separateIncome,retirement,retirementGross,
+      sourceTaxNat,sourceTaxLocal,breakdown,warnings};
+  }
+  function flatReduction(income, medical75 = false) {
+    return income <= 430000 ? (medical75 ? .72 : .7) : income <= 740000 ? .5 : income <= 1000000 ? .2 : 0;
+  }
+  // FY2026 Shinjuku care premiums retain the pre-2025 salary-income rules.
+  // This is a care-only adjustment: never change income/resident tax salary income.
+  // https://www.city.shinjuku.lg.jp/fukushi/file07_02_00006.html
+  function careSalaryIncome(gross) {
+    const a = FLOOR(NONNEG(gross));
+    if (a < 551000) return 0;
+    if (a < 1619000) return a - 550000;
+    if (a < 1620000) return 1069000;
+    if (a < 1622000) return 1070000;
+    if (a < 1624000) return 1072000;
+    if (a < 1628000) return 1074000;
+    if (a < 1800000) return ROUND(FLOOR(a / 4, 1000) * 2.4 + 100000);
+    if (a < 2200000) return ROUND(FLOOR(a / 4, 1000) * 2.8 - 80000);
+    return salaryIncome(a);
+  }
+  function care65(raw, config) {
+    const salary = careSalaryIncome(raw.salaryGross);
+    const otherIncome = raw.totalIncome - raw.pensionTaxable + raw.adjustment - raw.salary + salary;
+    const pension = pensionIncome(raw.publicGross, raw.age, otherIncome);
+    const adjustment = salaryPensionAdjustment(salary, pension);
+    const income = raw.insuranceIncome - raw.salary - raw.pensionTaxable + raw.adjustment + salary + pension - adjustment;
+    if (income <= config.tax.localExempt) {
+      // Care tiers 1-5: add back the salary/pension adjustment BEFORE the 100k deduction.
+      const salaryCorrection = Math.min(100000, salary) - adjustment;
+      const judge = NONNEG(income-pension-salaryCorrection)+raw.publicGross;
+      return judge <= 826500 ? 19800 : judge <= 1200000 ? 27720 : 51480;
+    }
+    const tiers = [[1250000,87120],[2500000,95040],[3750000,110880],[5000000,122760],
+      [6250000,146520],[7500000,166320],[10000000,194040],[15000000,229680],
+      [25000000,269280],[35000000,308880],[45000000,348480],[55000000,403920],[Infinity,459360]];
+    return tiers.find(t=>income<t[0])[1];
+  }
+  function socialInsurance(config, raw, previous, first) {
+    const p = config.insurance, age = raw.age;
+    if (p.mode === 'manual') {
+      const total = age<65 ? p.manualUnder65 : age<75 ? p.manual65 : p.manual75;
+      return {total:ROUND(total),health:0,care:0,pension:0,employment:0,support:0,manual:true,sourceIncome:null};
+    }
+    let src = config.tax.lagged ? previous : raw;
+    const base = NONNEG(src.insuranceIncome-residentBasic(src.totalIncome));
+    const reductionIncome = NONNEG(src.insuranceIncome - (src.age>=65 ? Math.min(150000,src.pensionTaxable) : 0));
+    const reduction = flatReduction(reductionIncome);
+    let health=0,care=0,pension=0,support=0;
+    const employment=ROUND(raw.pay.employmentGross*p.employmentRate/100);
+    if (age<75 && raw.pay.insured) {
+      health=ROUND(raw.pay.healthBase*p.healthRate/200);
+      support=ROUND(raw.pay.healthBase*p.supportRate/200);
+      if (age>=40 && age<65) care=ROUND(raw.pay.healthBase*p.careEmployeeRate/200);
+    } else if (age>=75) {
+      // Tokyo-specific income-levy relief applies to BOTH medical and child-support components.
+      const levyFactor = base<=150000 ? .5 : base<=200000 ? .75 : 1;
+      health=FLOOR(Math.min(850000,53300*(1-flatReduction(reductionIncome,true))+base*.0988*levyFactor),100);
+      support=FLOOR(Math.min(21000,1300*(1-reduction)+base*.0026*levyFactor),100);
+    } else {
+      health=FLOOR(Math.min(670000,47600*(1-reduction)+base*.0751),1)
+        +FLOOR(Math.min(260000,17600*(1-reduction)+base*.028),1);
+      support=FLOOR(Math.min(30000,1873*(1-reduction)+base*.0027),1);
+      if (age>=40 && age<65) care=FLOOR(Math.min(170000,17800*(1-reduction)+base*.0243),1);
+    }
+    if (age>=65) care=care65(src,config);
+    if (raw.pay.insured && age<70) pension=ROUND(raw.pay.pensionBase*p.pensionRate/200);
+    else if (!raw.pay.insured && age>=20 && age<60) pension=ROUND(p.nationalPensionMonthly*12);
+    return {health,care,pension,employment,support,total:health+care+pension+employment+support,
+      manual:false,sourceIncome:src.insuranceIncome};
+  }
+  function allocateDeductions(raw, deduction, includeRetirement) {
+    // NTA 31/32-6: general -> short land -> long land -> shares -> futures -> retirement.
+    let remaining=NONNEG(deduction);
+    const take=income=>{const used=Math.min(remaining,income);remaining-=used;return FLOOR(NONNEG(income-used),1000);};
+    const general=take(raw.generalIncome),separated={};
+    for(const type of SEPARATE_ORDER)separated[type]=take(raw.separated[type]);
+    const retirement=includeRetirement?take(raw.retirement):FLOOR(raw.retirement,1000);
+    return {general,separated,retirement,unused:remaining};
+  }
+  function residentTax(config,raw,social) {
+    const t=config.tax,basic=residentBasic(raw.totalIncome);
+    const extra=raw.age<=t.deductionEndAge?t.extraResidentDeduction:0;
+    const allocation=allocateDeductions(raw,basic+social.total+extra,false);
+    if (raw.insuranceIncome<=t.localExempt)
+      return {tax:0,taxable:0,basic,adjustment:0,separateTax:0,separated:allocation.separated,fixed:0};
+    const taxable=allocation.general;
+    let adjustment=0;
+    if(raw.totalIncome<=25000000)adjustment = taxable<=2000000
+      ? Math.min(t.adjustmentDifference,taxable)*.05
+      : Math.max(50000,t.adjustmentDifference-(taxable-2000000))*.05;
+    adjustment=Math.min(adjustment,taxable*t.localRate/100);
+    const separateTax=SUM(SEPARATE_ORDER.map(type=>allocation.separated[type]*SEPARATE_RATES[type].local/100));
+    // Municipality and prefecture round independently, AFTER aggregating general and separated levies.
+    const beforeRounding=NONNEG(taxable*t.localRate/100-adjustment)+separateTax;
+    const levy=FLOOR(beforeRounding*3/5,100)+FLOOR(beforeRounding*2/5,100);
+    return {tax:levy+t.localFixed,taxable,basic,adjustment,separateTax,separated:allocation.separated,fixed:t.localFixed};
+  }
+  function validate(c) {
+    const errors=[];
+    const record=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+    function number(v,label,min=0,max=1e10,integer=false) {
+      if(typeof v!=='number'||!Number.isFinite(v)||v<min||v>max||(integer&&!Number.isInteger(v)))
+        errors.push(`${label}を${min}〜${max}の${integer?'整数':'数値'}で入力してください。`);
+    }
+    if(!record(c)||c.version!==2||!record(c.pension)||!record(c.tax)||!record(c.insurance)||!record(c.previous)||!Array.isArray(c.streams)||!Array.isArray(c.previous.streams))
+      return ['設定ファイルは自動税計算版（v2）の形式で読み込んでください。旧版は税額手入力を含むため自動変換しません。'];
+    number(c.startAge,'開始年齢',20,100,true);number(c.endAge,'終了年齢',20,110,true);
+    number(c.selectedAge,'表示年齢',20,110,true);
+    if(c.startAge>c.endAge)errors.push('終了年齢は開始年齢以上にしてください。');
+    number(c.monthlyLiving,'生活費',0,1e8,true);
+    for (const k of ['basic','employee'])number(c.pension[k],'公的年金額',0,1e9,true);
+    number(c.pension.claimAge,'受給開始年齢',60,c.pension.cohort==='old'?70:75,true);
+    if(!['modern','earlier','old'].includes(c.pension.cohort))errors.push('生年月日の区分を選択してください。');
+    if(typeof c.pension.workingAdjustment!=='boolean')errors.push('在職年金調整の設定が不正です。');
+    if(typeof c.tax.lagged!=='boolean'||typeof c.previous.enabled!=='boolean')errors.push('前年所得反映の設定が不正です。');
+    for(const k of ['extraIncomeDeduction','extraResidentDeduction','localFixed','localExempt','adjustmentDifference'])number(c.tax[k],`控除・住民税設定 ${k}`,0,1e10,true);
+    number(c.tax.deductionEndAge,'追加控除の終了年齢',20,110,true);
+    number(c.tax.localRate,'住民税率',0,100);
+    if(!['tokyo','manual'].includes(c.insurance.mode))errors.push('保険料の計算方法を選択してください。');
+    for(const k of ['healthRate','careEmployeeRate','supportRate','employmentRate','pensionRate'])number(c.insurance[k],`保険料率 ${k}`,0,100);
+    for(const k of ['nationalPensionMonthly','workingThreshold','manualUnder65','manual65','manual75'])number(c.insurance[k],`保険料設定 ${k}`,0,1e10,true);
+    function streams(list,prefix) {
+      if(list.length>100){errors.push(`${prefix}は100件までです。`);return;}
+      const ids=new Set();let retirements=0;
+      list.forEach((s,i)=>{
+        const label=`${prefix}${i+1}`;
+        if(!record(s)||!Object.prototype.hasOwnProperty.call(TYPES,s.type)){errors.push(`${label}の種類が不正です。`);return;}
+        if(typeof s.id!=='string'||!s.id||s.id.length>150||ids.has(s.id))errors.push(`${label}のIDが不正または重複しています。`);ids.add(s.id);
+        if(typeof s.name!=='string'||!s.name.trim()||s.name.length>100)errors.push(`${label}の名前を1〜100文字で入力してください。`);
+        number(s.start,`${label}の開始年齢`,0,110,true);number(s.end,`${label}の終了年齢`,0,110,true);
+        if(s.start>s.end)errors.push(`${label}の終了年齢は開始年齢以上にしてください。`);
+        for(const k of ['amount','expense','taxExpense','bonus'])number(s[k],`${label}の金額 ${k}`,0,1e10,true);
+        number(s.bonusCount,`${label}の賞与回数`,1,3,true);
+        if(s.type==='retirement')number(s.serviceYears,`${label}の勤続年数`,0.01,80);
+        if(!['same','separate'].includes(s.cashMode))errors.push(`${label}の経費・現金支出設定が不正です。`);
+        if(!['normal','officer'].includes(s.retirementKind))errors.push(`${label}の退職金区分が不正です。`);
+        if(s.type==='salary'&&s.bonus>s.amount)errors.push(`${label}：賞与は給与年収の内数です。年収以下にしてください。`);
+        if(s.type==='salary'&&(typeof s.insured!=='boolean'||typeof s.employment!=='boolean'))errors.push(`${label}の加入区分が不正です。`);
+        if(s.type==='retirement'&&s.amount>0){retirements++;if(s.start!==s.end)errors.push(`${label}：退職金は1年だけの受取にしてください。`);}
+      });
+      if(retirements>1)errors.push(`${prefix}の退職金・iDeCo一時金の複数受取は、控除期間の重複調整が未対応のため計算できません。`);
+    }
+    streams(c.streams,'収入');streams(c.previous.streams,'前年収入');
+    return errors;
+  }
+  function priorRaw(c, firstRaw) {
+    if(!c.previous.enabled)return firstRaw;
+    const age=c.startAge-1;
+    const previousConfig={...c,pension:{...c.pension,basic:0,employee:0},
+      streams:c.previous.streams.map(s=>({...s,start:age,end:age}))};
+    return rawYear(previousConfig,age);
+  }
+  function simulate(c) {
+    const errors=validate(c);
+    if(errors.length)return {errors,rows:[],warnings:[]};
+    const raws=[];
+    for(let a=c.startAge;a<=c.endAge;a++)raws.push(rawYear(c,a));
+    const initialPrevious=priorRaw(c,raws[0]);
+    // Prior-year premiums are estimated at the previous income level because year-2 is unknown.
+    let previousLiability=c.tax.lagged&&c.previous.enabled
+      ?residentTax(c,initialPrevious,socialInsurance(c,initialPrevious,initialPrevious,false)).tax:null;
+    const rows=raws.map((raw,i)=>{
+      const social=socialInsurance(c,raw,i?raws[i-1]:initialPrevious,i===0);
+      const basic=basicDeduction(raw.totalIncome);
+      const extra=raw.age<=c.tax.deductionEndAge?c.tax.extraIncomeDeduction:0;
+      const allocation=allocateDeductions(raw,basic+social.total+extra,true);
+      const taxable=allocation.general;
+      const regularTax=progressiveTax(taxable);
+      const separateBaseTax=SUM(SEPARATE_ORDER.map(type=>FLOOR(allocation.separated[type]*SEPARATE_RATES[type].national/100)));
+      const retirementBaseTax=progressiveTax(allocation.retirement);
+      // Reconstruction tax is applied once to the combined declared income-tax base.
+      const reconstruction=FLOOR((regularTax+separateBaseTax+retirementBaseTax)*21/1000);
+      const retirementNational=retirementBaseTax;
+      const retirementWithholding=FLOOR(progressiveTax(raw.retirement)*1021/1000);
+      const retirementLocal=FLOOR(FLOOR(raw.retirement,1000)*3/50,100)+FLOOR(FLOOR(raw.retirement,1000)*2/50,100);
+      const liability=residentTax(c,raw,social);
+      const regularLocal=c.tax.lagged&&previousLiability!==null?previousLiability:liability.tax;
+      previousLiability=liability.tax;
+      const incomeTax=regularTax+separateBaseTax+retirementBaseTax+reconstruction+raw.sourceTaxNat;
+      const localTax=regularLocal+retirementLocal+raw.sourceTaxLocal;
+      const taxes=incomeTax+localTax,net=raw.gross-raw.expenses-taxes-social.total;
+      return {...raw,social,incomeTax,localTax,taxes,net,available:net+raw.principal,
+        monthlyNet:net/12,living:c.monthlyLiving*12,balance:net+raw.principal-c.monthlyLiving*12,
+        taxDetail:{basic,extra,taxable,regularTax,reconstruction,retirementNational,retirementLocal,
+          retirementTaxable:allocation.retirement,retirementWithholding,
+          separated:allocation.separated,separateBaseTax,unusedIncomeDeduction:allocation.unused,
+          sourceNational:raw.sourceTaxNat,sourceLocal:raw.sourceTaxLocal,regularLocal,residentLiability:liability.tax,
+          residentBasic:liability.basic,residentTaxable:liability.taxable,residentAdjustment:liability.adjustment,
+          residentSeparate:liability.separateTax,residentFixed:liability.fixed}};
+    });
+    const warnings=new Set(rows.flatMap(r=>r.warnings));
+    if(rows.some(r=>r.gross===0&&r.social.total>0))warnings.add('収入0円でも、加入している保険・年齢によって保険料が発生するため、手取りがマイナスになる場合があります。');
+    if(c.insurance.mode==='tokyo')warnings.add('自動保険料・住民税の非課税判定は東京・新宿区／単身・扶養なしを仮定しています。お住まいが違う場合や扶養がある場合の実額ではありません。');
+    if(c.tax.lagged&&!c.previous.enabled)warnings.add('前年の収入は初年度と同じと仮定。退職直後などは「前年の収入」を入力してください。税額の入力は不要です。');
+    if(c.tax.lagged&&c.previous.enabled)warnings.add('初年度の住民税・保険料は入力した前年収入から自動算定。前年の社会保険料は前年収入で推定し、前々年の所得変動・実納付月までは再現しません。');
+    if(c.pension.claimAge>65&&c.streams.some(s=>s.type==='salary'&&s.insured&&s.start<c.pension.claimAge&&s.end>=65))warnings.add('繰下げ待機中の在職支給停止は年額を12分割して反映。加入継続による年金額の増加・月別変動は未反映です。');
+    if(c.streams.some(s=>s.type==='salary'&&s.amount>0))warnings.add('給与は年額から月額を推定。賞与は年1回＝12月、2回＝6・12月、3回＝4・8・12月の均等額と仮定し、複数勤務先の同月賞与上限は合算します。通勤手当・月別報酬・加入資格は自動判定しません。');
+    if(c.tax.extraIncomeDeduction||c.tax.extraResidentDeduction)warnings.add('追加控除は任意の上書きです。扶養等の適用可否・非課税世帯基準・人的控除差は別途確認してください。');
+    if(c.streams.some(s=>s.type==='retirement'&&s.amount>0))warnings.add('退職金は単独受取で確定申告による所得控除精算後の国税を表示。住民税は受取時課税。複数受取・期間重複・一般と役員の混合・障害退職の特例は対象外です。');
+    if(c.streams.some(s=>['stock','dividend','interest','nisa','stockDeclared'].includes(s.type)))warnings.add('投資欄は売却代金でなく利益・配当・利息を入力。申告不要の源泉税と申告分離は区別します。源泉税は年額単位の概算で取引ごとの端数処理は再現しません。投資損失通算・繰越・外国税・配当控除は対象外です。');
+    if(c.streams.some(s=>['propertyLong','propertyShort','assetLong','assetShort','fx','stockDeclared'].includes(s.type)))warnings.add('利益欄は取得費・売却費用等を引いた利益額です。元本は別の取崩しへ。土地建物は一般税率で、居住用3,000万円控除・10年超軽減・損失特例は適用しません。国内FXは対象取引だけで、海外業者等は同じ税率とは限りません。');
+    if(c.streams.some(s=>['business','rental'].includes(s.type)&&s.amount>0))warnings.add('事業・家賃の税額は所得税・住民税まで。事業税・消費税・固定資産税、青色申告の資格判定は業種・事業規模・物件等の追加情報が必要なため自動算定対象外です。');
+    if(rows.some(r=>r.totalIncome>300000000))warnings.add('超高所得への追加課税（ミニマムタックス）は未対応です。この結果は確定税額ではありません。');
+    return {errors:[],rows,warnings:[...warnings]};
+  }
+  const api={TYPES,SOURCES,DEFAULTS,SAMPLE,clone,makeStream,salaryIncome,basicDeduction,residentBasic,pensionIncome,
+    salaryPensionAdjustment,progressiveTax,standardMonth,payroll,pensionFactor,stoppedPension,publicPension,
+    retirementIncome,allocateDeductions,priorRaw,rawYear,flatReduction,care65,socialInsurance,residentTax,validate,simulate};
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;
+  else root.PensionCalc=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+
+/* Browser UI. Money is entered in 万円 and stored in 円; no remote requests. */
+(function () {
+  'use strict';
+  const E = window.PensionCalc;
+  const $ = id => document.getElementById(id);
+  const KEY = 'pension-life.v2';
+  const ONE_OFF = ['retirement','temporary','propertyLong','propertyShort','assetLong','assetShort'];
+  const fmt = (v, digits=1) => Number.isFinite(v) ? v.toLocaleString('ja-JP', {minimumFractionDigits:digits, maximumFractionDigits:digits}) : '—';
+  const man = (v, digits=1) => fmt(v/10000,digits);
+  const yen = v => `${fmt(v,0)} 円`;
+  const esc = x => String(x).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const get = (obj,path) => path.split('.').reduce((v,k)=>v[k],obj);
+  const set = (obj,path,value) => {const bits=path.split('.');const last=bits.pop();bits.reduce((v,k)=>v[k],obj)[last]=value;};
+  let state=E.clone(E.DEFAULTS), result=null, mode='empty', toastTimer, editingId=null, editingPrevious=false;
+  let comparisonRows=[];
+  const HELP={
+    salary:'税引前の給与と賞与の合計年額です。社会保険と雇用保険の加入区分は勤務先に確認して指定してください。賞与は年収の内数です。',
+    public:'受給中の公的年金や企業年金など、公的年金等控除の対象になる年金形式の受取です。基礎・厚生年金と合算して控除します。この欄では繰上げ・繰下げや在職停止は再計算しません。',
+    private:'生命保険などの個人年金です。払込保険料の対応額は税務上の必要経費として入力します。過去に払い込んだ保険料を、今年の現金支出にも入れないでください。',
+    business:'売上の年額を入力します。税務上の必要経費と実際に出ていく現金を別々に指定します。経費が未入力なら0円を仮定します。事業税・消費税・青色申告資格の判定は別途確認が必要で、ここでは所得税・住民税を自動算定します。',
+    rental:'家賃などの税引前収入です。減価償却費などの税務上の経費と、修繕費・返済元本などの現金支出を分けて入力します。借入残高の管理は行いません。',
+    misc:'業務委託・副業など、総合課税の雑所得として扱う収入です。経費がなければ収入だけで計算できます。経費は下の条件欄へ。赤字の他区分との損益通算は行いません。',
+    dividend:'上場株式等の配当を、源泉徴収20.315%・確定申告しない前提で計算します。総合所得や国保の所得には加えません。外国税・配当控除は未対応です。',
+    stock:'源泉徴収あり特定口座で、確定申告しない前提です。売却代金ではなく「売却益（取得費・売却手数料等を差し引いた利益）」を入力します。元本は別の取崩し欄へ。損益通算は未対応です。',
+    interest:'国内の一般的な預金利息を、源泉分離課税20.315%で計算します。税引前の利息額を入力してください。',
+    nisa:'国内で非課税になる配当・分配金・売却益だけを入力します。売却代金全額は入れません。外国税や、国内課税される受取方式の配当には対応しません。',
+    nontax:'遺族年金・障害年金など、所得税と住民税が非課税の受取です。課税所得には加えません。課税される贈与・相続などにこの欄を使わないでください。',
+    temporary:'保険の満期金など、一時所得になる収入です。直接支出した取得費等を必要経費に指定します。50万円の特別控除は全対象を合計して1回適用し、その後の1/2を所得に算入します。',
+    retirement:'過去分との期間重複がない単独受取を計算。勤続年数は収入額から分からないため入力が必要です。一般退職・短期退職・短期役員に対応し、所得控除精算後の国税を表示します。複数受取・期間重複・障害退職特例は対象外です。',
+    fx:'申告分離課税の対象となる国内FX・先物の年間確定利益を入力。取得費等を引いた利益に国税15%＋復興税・地方税5%を適用し、未使用の所得控除も反映します。海外業者等はこの欄に入れないでください。損失繰越は未対応です。',
+    stockDeclared:'源泉徴収なし口座などで申告する株式の年間確定利益です。取得費・売却費用控除後を入力。国税15%＋復興税・地方税5%を自動算定し、合計所得・保険料にも反映します。配当との通算・外国税は未対応です。',
+    propertyLong:'売却した年の1月1日現在で所有期間が5年を超える土地・建物の譲渡益。売却代金から取得費（建物の償却を反映）・売却費用を引いた額を入力。一般税率15%＋復興税・住民税5%。居住用3,000万円控除・10年超軽減は適用しません。元本は取崩し欄へ。',
+    propertyShort:'売却した年の1月1日現在で所有期間が5年以下の土地・建物の譲渡益。取得費・売却費用を引いた額を入力。一般税率30%＋復興税・住民税9%。居住用控除などの特例は適用しません。元本は取崩し欄へ。',
+    assetLong:'所有期間5年超の金など、総合課税となる資産の確定利益です。取得費・売却費用控除後を入力。短期分と共通の50万円特別控除を適用し、残額の1/2を所得に算入します。暗号資産・土地建物・株式には使えません。',
+    assetShort:'所有期間5年以下の金など、総合課税となる資産の確定利益です。取得費・売却費用控除後を入力。長期分と共通の50万円特別控除を短期から優先適用します。暗号資産・土地建物・株式には使えません。',
+    principal:'預貯金や投資の取得元本などを使う金額です。所得でも収入でもないため手取りには足さず、生活費後の収支にだけ加えます。投資利益は別途、その利益の区分に入力してください。'
+  };
+  const ICON={salary:'仕',public:'年',private:'保',business:'業',rental:'家',misc:'副',dividend:'配',stock:'株',interest:'利',nisa:'N',nontax:'給',temporary:'一',retirement:'退',fx:'FX',stockDeclared:'株',propertyLong:'長',propertyShort:'短',assetLong:'金',assetShort:'金',principal:'貯'};
+  const rates=[
+    ['insurance.healthRate','会社の健康保険料率',1,'%',.01],
+    ['insurance.careEmployeeRate','40〜64歳の介護保険料率',1,'%',.01],
+    ['insurance.supportRate','会社の子ども・子育て支援金率',1,'%',.01],
+    ['insurance.pensionRate','厚生年金保険料率',1,'%',.01],
+    ['insurance.employmentRate','雇用保険の本人負担率',1,'%',.01],
+    ['insurance.nationalPensionMonthly','国民年金の月額',1,'円',1],
+    ['insurance.workingThreshold','在職年金の月額基準',10000,'万円',.1],
+    ['tax.localRate','住民税の所得割率',1,'%',.1],
+    ['tax.localFixed','住民税均等割・森林環境税',1,'円 / 年',100],
+    ['tax.localExempt','住民税の所得非課税基準',10000,'万円',.1],
+    ['tax.adjustmentDifference','住民税調整控除の人的控除差',10000,'万円',.1]
+  ];
+  $('rate-fields').innerHTML=rates.map(([path,label,scale,unit,step])=>`<label class="field wide">${label}<div class="input-wrap"><input data-field="${path}" data-scale="${scale}" type="number" min="0" step="${step}" inputmode="decimal"><span>${unit}</span></div></label>`).join('');
+  $('sources').innerHTML=E.SOURCES.map(([name,org,url])=>`<a href="${url}" target="_blank" rel="noopener noreferrer"><span>${esc(org)}</span>${esc(name)}<span aria-hidden="true">↗</span></a>`).join('');
+  $('stream-type').innerHTML=Object.entries(E.TYPES).map(([type,name])=>`<option value="${type}">${esc(name)}</option>`).join('');
+
+  function toast(message) {clearTimeout(toastTimer);$('toast').textContent=message;$('toast').hidden=false;toastTimer=setTimeout(()=>$('toast').hidden=true,5000);}
+  function markEdited() {mode='edited';renderStatus();}
+  function renderStatus() {
+    const text={empty:['収入を入力してください','サンプルの収入は混ざりません'],sample:['サンプル値で表示中','ご自身の金額に変更してください'],edited:['ご自身の設定','変更内容は未保存です'],saved:['端末の保存値','このブラウザーに保存済み'],imported:['読み込んだ設定','端末に保存するまで未保存です']}[mode];
+    $('sample-badge').textContent=text[0];$('sample-badge').classList.toggle('modified',!['sample','empty'].includes(mode));$('save-status').textContent=text[1];
+  }
+  function fillForm() {
+    const max=state.pension.cohort==='old'?70:75;
+    $('claim-age').innerHTML=Array.from({length:max-59},(_,i)=>`<option value="${60+i}">${60+i}歳から受給</option>`).join('');
+    document.querySelectorAll('[data-field]').forEach(input=>{
+      const value=get(state,input.dataset.field);
+      if(input.type==='checkbox')input.checked=value;
+      else input.value=value===null?'':String(value/(Number(input.dataset.scale)||1));
+      if(input.tagName==='SELECT')input.value=String(value);
+    });
+    renderStatus();renderIncomeList();renderPreviousList();updateSettings();
+  }
+  function updateSettings() {
+    const factor=E.pensionFactor(state.pension.claimAge,state.pension.cohort);
+    $('pension-factor').textContent=`${fmt(factor*100)}%`;
+    $('manual-insurance').hidden=state.insurance.mode!=='manual';
+    $('insurance-description').textContent=state.insurance.mode==='manual'
+      ? '自動計算を使わず、入力した本人負担の年額に置き換えます。各年齢帯の例示額を実額に変更してください。'
+      : '会社の社会保険・国保を給与欄の加入指定で切り替え、75歳から後期高齢者医療に切り替えます。自動算定は東京・新宿区の単身世帯モデルです。';
+  }
+  function renderIncomeList() {
+    $('income-count').textContent=`${state.streams.length}件`;
+    $('income-list').innerHTML=state.streams.length ? state.streams.map(s=>`<div class="income-row"><span class="income-icon" aria-hidden="true">${ICON[s.type]}</span><div class="income-body"><button data-edit="${esc(s.id)}" title="${esc(s.name)}を編集">${esc(s.name)}</button><small>${s.start}〜${s.end}歳${s.type==='principal'?' · 取崩し':''}</small></div><div class="income-right"><strong>${man(s.amount)}<small>万円 / 年</small></strong><button class="icon-btn" data-remove="${esc(s.id)}" aria-label="${esc(s.name)}を削除">×</button></div></div>`).join(''):'<p class="empty-income">給与・副業・投資などの収入を追加できます。</p>';
+  }
+  function renderPreviousList() {
+    $('previous-income-list').innerHTML=state.previous.streams.length?state.previous.streams.map(s=>`<div class="income-row"><span class="income-icon">${ICON[s.type]}</span><div class="income-body"><button data-edit-previous="${esc(s.id)}">${esc(s.name)}</button><small>前年の実収入</small></div><div class="income-right"><strong>${man(s.amount)}<small>万円 / 年</small></strong><button class="icon-btn" data-remove-previous="${esc(s.id)}" aria-label="前年の${esc(s.name)}を削除">×</button></div></div>`).join(''):'<p class="helper">前年収入は未登録です。有効にした場合は0円として計算します。</p>';
+  }
+  function row(label,value,cls='',sign='') {
+    return `<div class="breakdown-row ${cls}"><span>${esc(label)}</span><strong>${sign}${man(value,2)}<small> 万円</small></strong></div>`;
+  }
+  function detail(label,value) {return `<div class="breakdown-row subrow"><span>${esc(label)}</span><strong>${yen(value)}</strong></div>`;}
+  function SEPARATE_DETAIL(td) {return Object.entries(td.separated).filter(([,amount])=>amount).map(([type,amount])=>detail(E.TYPES[type]+'：所得控除適用後',amount)).join('')+detail('退職所得の課税所得（所得控除適用後）',td.retirementTaxable);}
+  function renderDetails(r) {
+    const td=r.taxDetail,s=r.social;
+    $('breakdown-title').textContent=`${r.age}歳のお金の内訳`;
+    $('breakdown').innerHTML=r.breakdown.filter(x=>x.gross).map(x=>row(x.name,x.gross,'subrow')).join('')
+      +row('収入の合計',r.gross,'total')+row('必要経費などの現金支出',r.expenses,'deduction','− ')
+      +row('所得税等（源泉・分離分を含む）',r.incomeTax,'deduction','− ')
+      +row('住民税等（源泉・分離分を含む）',r.localTax,'deduction','− ')
+      +row('社会保険料',s.total,'deduction','− ')+row('年間の手取り',r.net,'total')
+      +(r.principal ? row('元本の取崩し（手取りには含めない）',r.principal,'subrow','＋ ') : '')
+      +row('生活費',r.living,'deduction','− ')+row('生活費後の年間収支',r.balance,`total ${r.balance>=0?'positive':'negative'}`);
+    $('calculation-details').innerHTML='<h4 class="detail-subheading">収入から所得への計算</h4>'
+      +detail('給与所得控除後の給与所得',r.salary)+detail('公的年金等控除後の年金所得',r.pensionTaxable)
+      +detail('給与・年金の所得金額調整控除',r.adjustment)+detail('事業所得',r.business)+detail('不動産所得',r.rental)
+      +detail('雑所得（公的年金以外）',r.miscellaneous)+detail('一時所得の算入額（特別控除後の1/2）',r.temporary)
+      +detail('金などの総合譲渡所得（控除・1/2適用後）',r.assetIncome)+detail('総合課税する所得の合計',r.generalIncome)+detail('分離課税・退職所得を含む合計所得金額',r.totalIncome)
+      +'<h4 class="detail-subheading">所得税等</h4>'+detail('所得税等の合計',r.incomeTax)+detail('基礎控除（2026年分モデル）',td.basic)
+      +detail('社会保険料控除',s.total)+detail('追加所得控除',td.extra)+detail('総合課税の課税所得（千円未満切捨て）',td.taxable)
+      +detail('総合課税の所得税',td.regularTax)+detail('申告分離分の所得税（FX・土地建物・株式）',td.separateBaseTax)+detail('復興特別所得税（申告する全区分の合計）',td.reconstruction)
+      +detail('投資収入の源泉税（国税）',td.sourceNational)+detail('退職所得の所得税（所得控除精算後・復興税は上に合算）',td.retirementNational)
+      +detail('参考：退職時の源泉国税額（手取りから二重に引かない）',td.retirementWithholding)
+      +SEPARATE_DETAIL(td)
+      +'<h4 class="detail-subheading">住民税等</h4>'+detail('住民税等の合計',r.localTax)+detail('今回の年齢で負担する住民税（申告分離分を含む）',td.regularLocal)
+      +detail('投資収入の源泉税（地方税）',td.sourceLocal)+detail('退職所得の地方税',td.retirementLocal)
+      +'<p class="helper">以下の項目は、この年齢の所得に対応する税額です。「前年所得を反映」が有効なら、通常の住民税として次の年齢に繰り越します。</p>'
+      +detail('この所得に対する住民税の基礎控除',td.residentBasic)+detail('この所得に対する住民税の課税所得',td.residentTaxable)
+      +detail('この所得に対する住民税の調整控除',td.residentAdjustment)+detail('この所得に対する分離課税の住民税（端数処理前）',td.residentSeparate)+detail('この所得に対する均等割・森林環境税',td.residentFixed)+detail('この所得に対する住民税額（分離分を含む）',td.residentLiability)
+      +'<h4 class="detail-subheading">社会保険料（本人負担）</h4>'
+      +(s.manual?detail('直接入力した年間総額',s.total):detail('健康保険・国保・後期高齢者医療',s.health)+detail('介護保険',s.care)
+        +detail('厚生年金・国民年金',s.pension)+detail('雇用保険',s.employment)+detail('子ども・子育て支援金',s.support))
+      +'<h4 class="detail-subheading">公的年金の調整</h4>'+detail('在職による厚生年金の年間停止額',r.publicAmounts.stopped)
+      +detail('支給中の厚生年金に含む繰下げ増額',r.publicAmounts.deferred)
+      +'<p class="helper">端数処理や月別計算が実際の納付額と異なる概算です。給与の賞与は入力回数に等分し、標準報酬は年間給与から推定します。</p>';
+  }
+  function selectAge(age) {
+    state.selectedAge=Math.max(state.startAge,Math.min(state.endAge,Number(age)));
+    renderSelected();renderChart();renderTable();
+  }
+  function renderSelected() {
+    const r=result.rows.find(r=>r.age===state.selectedAge)||result.rows[0];
+    state.selectedAge=r.age;
+    $('selected-age').min=state.startAge;$('selected-age').max=state.endAge;$('selected-age').value=r.age;
+    $('selected-age-text').innerHTML=`${r.age}<span>歳</span>`;
+    const points=[state.startAge,...[60,65,70,75,85,95].filter(a=>a>=state.startAge&&a<=state.endAge),state.endAge];
+    $('age-quick').innerHTML=[...new Set(points)].map(a=>`<button data-age="${a}" class="${a===r.age?'current':''}" aria-label="${a}歳の結果" aria-pressed="${a===r.age}">${a}</button>`).join('');
+    $('net-caption').textContent=`${r.age}歳の手取り / 年平均`;
+    $('net-monthly').textContent=man(r.monthlyNet);$('net-monthly').parentElement.classList.toggle('compact',man(r.monthlyNet).length>7);$('net-yearly').textContent=`年額 ${man(r.net,2)} 万円`;
+    $('net-ratio').textContent=r.gross>0 ? `税引前収入に対して ${fmt(r.net/r.gross*100)}%`:'収入の入力がありません';
+    $('principal-note').textContent=r.principal ? `元本取崩し ${man(r.principal)}万円 / 年は手取りに含みません`:'';
+    $('gross-total').innerHTML=`${man(r.gross)}<small>万円</small>`;
+    $('burden-total').innerHTML=`${man(r.taxes+r.social.total)}<small>万円</small>`;
+    $('burden-detail').textContent=`税 ${man(r.taxes)} / 保険料 ${man(r.social.total)} 万円`;
+    $('monthly-balance').innerHTML=`${r.balance>0?'+ ':''}${man(r.balance/12)}<small>万円</small>`;
+    $('monthly-balance').className=r.balance>=0?'positive':'negative';
+    $('balance-detail').textContent=`生活費 ${man(state.monthlyLiving)} 万円 / 月${r.principal?'・取崩し含む':''}`;
+    renderDetails(r);
+  }
+  function renderChart() {
+    const rows=result.rows,n=rows.length,W=800,H=248,L=59,R=15,T=17,B=32,iw=W-L-R,ih=H-T-B;
+    const low=Math.min(0,...rows.map(r=>r.net)),high=Math.max(10000,...rows.map(r=>r.gross),...rows.map(r=>r.net));
+    const span=high-low,pow=10**Math.floor(Math.log10(span/4)),step=[1,2,5,10].map(v=>v*pow).find(v=>v>=span/4)||10*pow;
+    const min=Math.floor(low/step)*step,max=Math.ceil(high/step)*step;
+    const y=v=>T+(max-v)/(max-min)*ih, x=i=>L+(i+.5)*iw/n;
+    let content='';
+    for(let value=min;value<=max+step/100;value+=step){content+=`<line x1="${L}" y1="${y(value)}" x2="${W-R}" y2="${y(value)}" stroke="${value===0?'#b9cbc1':'#eaf0ec'}"/><text x="${L-10}" y="${y(value)+4}" text-anchor="end" fill="#75867c" font-size="11">${man(value,value<10000&&value!==0?1:0)}</text>`;}
+    rows.forEach((r,i)=>{content+=`<rect x="${x(i)-iw/n*.33}" y="${y(r.gross)}" width="${Math.max(1,iw/n*.66)}" height="${Math.max(0,y(0)-y(r.gross))}" rx="2" fill="${r.age===state.selectedAge?'#87bca5':'#c4ddce'}"/>`;});
+    content+=`<polyline points="${rows.map((r,i)=>`${x(i)},${y(r.net)}`).join(' ')}" fill="none" stroke="#176d5b" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const selected=rows.findIndex(r=>r.age===state.selectedAge);
+    content+=`<line x1="${x(selected)}" x2="${x(selected)}" y1="${T}" y2="${H-B}" stroke="#438a70" stroke-dasharray="3 4" opacity=".7"/><circle cx="${x(selected)}" cy="${y(rows[selected].net)}" r="4.5" fill="#176d5b" stroke="white" stroke-width="2"/>`;
+    const every=Math.max(1,Math.ceil(n/8));
+    rows.forEach((r,i)=>{if(i%every===0||i===n-1)content+=`<text x="${x(i)}" y="${H-9}" text-anchor="middle" fill="#75867c" font-size="11">${r.age}歳</text>`;
+      content+=`<rect class="bar-hit" data-age="${r.age}" x="${L+i*iw/n}" y="${T}" width="${iw/n}" height="${ih}" fill="transparent"><title>${r.age}歳：収入 ${man(r.gross)}万円、手取り ${man(r.net)}万円</title></rect>`;});
+    $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${state.startAge}歳から${state.endAge}歳の年収と手取り。詳しい金額は年齢別一覧にあります。">${content}</svg>`;
+  }
+  function renderTable() {
+    $('yearly-body').innerHTML=result.rows.map(r=>`<tr class="${r.age===state.selectedAge?'selected':''}"><th scope="row"><button data-age="${r.age}" aria-label="${r.age}歳の内訳を表示">${r.age}<small>歳</small></button></th>`
+      +[r.publicGross,r.salaryGross,r.gross-r.publicGross-r.salaryGross,r.gross,r.expenses,r.incomeTax,r.localTax,r.social.total,r.net,r.monthlyNet,r.principal,r.balance]
+        .map((v,i)=>`<td${i===8?' class="net-col"':i===11?` class="${v<0?'negative':'positive'}"`:''}>${man(v,2)}</td>`).join('')+'</tr>').join('');
+  }
+  function renderComparison() {
+    const choices=[60,65,70,...(state.pension.cohort==='old'?[]:[75])];
+    if(!choices.includes(state.pension.claimAge))choices.push(state.pension.claimAge);
+    comparisonRows=choices.sort((a,b)=>a-b).map(age=>{const c=E.clone(state);c.pension.claimAge=age;const sim=E.simulate(c);return {age,total:sim.rows.reduce((v,r)=>v+r.net,0)};});
+    $('comparison-description').textContent=`${state.startAge}〜${state.endAge}歳の累計手取り（元本取崩しを除く）`;
+    $('comparison').innerHTML=comparisonRows.map(({age,total})=>`<button class="compare-option ${age===state.pension.claimAge?'active':''}" data-claim="${age}" aria-pressed="${age===state.pension.claimAge}"><span class="compare-age">${age}<small>歳開始</small></span><strong>${man(total,0)}<small>万円</small></strong><span>${age===state.pension.claimAge?'現在の設定':'この年齢で試算'}</span></button>`).join('');
+  }
+  function render() {
+    updateSettings();
+    result=E.simulate(state);
+    $('errors').hidden=!result.errors.length;$('result-content').hidden=!!result.errors.length;
+    $('export-csv').disabled=!!result.errors.length;
+    if(result.errors.length){$('errors').innerHTML='<strong>入力内容を確認してください</strong>'+result.errors.map(e=>`<p>${esc(e)}</p>`).join('');$('yearly-body').innerHTML='';return;}
+    if(!Number.isFinite(state.selectedAge))state.selectedAge=state.startAge;
+    state.selectedAge=Math.max(state.startAge,Math.min(state.endAge,state.selectedAge));
+    renderSelected();renderChart();renderTable();renderComparison();
+    $('warnings').innerHTML=result.warnings.map(w=>`<p>${esc(w)}</p>`).join('')||'<p>結果は固定制度・年単位の概算です。詳細な適用条件は下の計算の前提を確認してください。</p>';
+  }
+  document.querySelectorAll('[data-field]').forEach(input=>input.addEventListener('input',()=>{
+    const path=input.dataset.field;
+    let value;
+    if(input.type==='checkbox')value=input.checked;
+    else if(['pension.cohort','insurance.mode'].includes(path))value=input.value;
+    else {value=input.value===''?(input.dataset.nullable?null:NaN):Number(input.value)*(Number(input.dataset.scale)||1);if(input.dataset.scale==='10000'&&Number.isFinite(value))value=Math.round(value);}
+    set(state,path,value);
+    if(path==='pension.cohort'){
+      if(state.pension.cohort==='old'&&state.pension.claimAge>70)state.pension.claimAge=70;
+      const max=state.pension.cohort==='old'?70:75;
+      $('claim-age').innerHTML=Array.from({length:max-59},(_,i)=>`<option value="${60+i}">${60+i}歳から受給</option>`).join('');
+      $('claim-age').value=state.pension.claimAge;
+    }
+    markEdited();render();
+  }));
+  $('selected-age').addEventListener('input',e=>selectAge(Number(e.target.value)));
+  document.addEventListener('click',e=>{
+    const shortcut=e.target.closest('[data-new-type]');if(shortcut)openDialog(null,false,shortcut.dataset.newType);
+    const button=e.target.closest('[data-age]');if(button&&result&&!result.errors.length)selectAge(Number(button.dataset.age));
+    const claim=e.target.closest('[data-claim]');if(claim){state.pension.claimAge=Number(claim.dataset.claim);$('claim-age').value=state.pension.claimAge;markEdited();render();}
+  });
+
+  // Edit a single income in a dialog, committing only after validation.
+  const dialog=$('income-dialog'),form=$('income-form');
+  function moneyField(name,label,value,help='') {return `<label class="field">${label}<div class="input-wrap"><input name="${name}" type="number" min="0" step="0.0001" value="${value/10000}" inputmode="decimal" required><span>万円 / 年</span></div>${help?`<span class="helper">${help}</span>`:''}</label>`;}
+  function renderStreamExtra(s) {
+    $('type-help').textContent=HELP[s.type];
+    $('amount-label').firstChild.textContent=s.type==='principal'?'元本取崩し額':['stock','nisa','fx','stockDeclared','propertyLong','propertyShort','assetLong','assetShort'].includes(s.type)?'利益・配当額':s.type==='retirement'?'退職金・一時金の受取額':'税引前の収入額';
+    let html='';
+    if(s.type==='salary')html=moneyField('bonus','うち賞与（年収の内数）',s.bonus)
+      +`<label class="field">年間の賞与支給回数<select name="bonusCount">${[1,2,3].map(n=>`<option value="${n}" ${n===s.bonusCount?'selected':''}>${n}回（均等額として計算）</option>`).join('')}</select></label>`
+      +`<label class="check"><input type="checkbox" name="insured" ${s.insured?'checked':''}>会社の健康保険・厚生年金の加入対象として扱う</label><label class="check"><input type="checkbox" name="employment" ${s.employment?'checked':''}>雇用保険に加入している</label><p class="helper">70歳以降は厚生年金保険料を、75歳以降は会社の健康保険料を徴収しないモデルです。在職年金の対象となる勤務は、加入対象のチェックを維持してください。</p>`;
+    if(['business','rental','misc','private','temporary'].includes(s.type))html=moneyField('taxExpense',s.type==='private'?'税務上の必要経費（払込保険料対応額）':'税務上の必要経費・取得費',s.taxExpense,'所得の計算に使います。現金支出とは別です。')
+      +`<label class="check"><input type="checkbox" name="cashSame" ${s.cashMode==='same'?'checked':''}>この必要経費と同額を、今年の現金支出にも反映する</label><div id="cash-separate" ${s.cashMode==='same'?'hidden':''}>`+moneyField('expense','今年、実際に支払う現金支出',s.expense,'過去の払込保険料・取得費は今年の現金支出に重ねません。')+'</div>';
+    if(s.type==='retirement')html=`<label class="field">受取の区分<select name="retirementKind"><option value="normal" ${s.retirementKind==='normal'?'selected':''}>一般従業員・iDeCo（単独期間）</option><option value="officer" ${s.retirementKind==='officer'?'selected':''}>役員期間だけの退職金</option></select></label><label class="field">勤続年数・控除対象期間<div class="input-wrap"><input name="serviceYears" type="number" min="0.01" max="80" step="0.01" value="${s.serviceYears??''}" required><span>年</span></div><span class="helper">端数は切り上げます。正確な期間・過去の受取履歴は勤務先等に確認してください。</span></label>`;
+    $('stream-extra').innerHTML=html;
+    $('stream-end').disabled=s.type==='retirement'||editingPrevious;
+    if(s.type==='retirement'||editingPrevious)$('stream-end').value=$('stream-start').value;
+    $('stream-start').disabled=editingPrevious;
+    $('amount-unit').disabled=s.type==='retirement';
+    if(s.type==='retirement'){$('amount-unit').value='year';$('stream-options').open=true;}
+    $('income-assumptions').textContent=editingPrevious?'前年の受取額を使用します。税額入力は不要です。':s.type==='salary'?'既定：期間中ずっと同じ年収、賞与なし、会社の社会保険・雇用保険に加入。変更は上の条件欄へ。':['business','rental','misc','private','temporary'].includes(s.type)?'経費が未入力なら0円と仮定します。経費がある場合は条件欄を開いてください。':s.type==='retirement'?'勤続・加入期間は必須です。過去の退職金と期間が重なる場合はこの自動計算を使えません。':ONE_OFF.includes(s.type)?'一時収入は既定で初年度の1回だけです。受取年齢は条件欄で確認・変更してください。':'期間内は毎年同じ収入として計算します。受取期間は条件欄で確認・変更してください。';
+  }
+  function readDraft() {
+    const type=$('stream-type').value,s=E.makeStream(type,editingId||`income-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`);
+    for(const name of ['name','amount','start','end','expense','taxExpense','bonus','bonusCount','serviceYears']){
+      const el=form.elements.namedItem(name);if(!el)continue;
+      s[name]=name==='name'?el.value.trim():el.value===''?NaN:Number(el.value)*(['amount','expense','taxExpense','bonus'].includes(name)?10000*(name==='amount'&&$('amount-unit').value==='month'?12:1):1);
+    }
+    for(const key of ['amount','expense','taxExpense','bonus'])if(Number.isFinite(s[key]))s[key]=Math.round(s[key]);
+    if(form.elements.cashSame)s.cashMode=form.elements.cashSame.checked?'same':'separate';
+    if(form.elements.retirementKind)s.retirementKind=form.elements.retirementKind.value;
+    if(type==='salary'){s.insured=form.elements.insured.checked;s.employment=form.elements.employment.checked;}
+    if(type==='retirement'||editingPrevious)s.end=s.start;
+    return s;
+  }
+  function openDialog(id=null,previous=false,type='misc') {
+    editingId=id;editingPrevious=previous;
+    const list=previous?state.previous.streams:state.streams;
+    const s=id?E.clone(list.find(s=>s.id===id)):{...E.makeStream(type),start:previous?state.startAge-1:state.startAge,end:previous?state.startAge-1:ONE_OFF.includes(type)?state.startAge:state.endAge};
+    $('dialog-title').textContent=previous?(id?'前年の収入を編集':'前年の収入を追加'):(id?'収入を編集':'収入を追加');
+    $('stream-options').open=false;$('amount-unit').value='year';
+    for(const field of ['type','name','amount','start','end'])$('stream-'+field).value=field==='amount'?s.amount/10000:s[field];
+    $('stream-error').hidden=true;renderStreamExtra(s);dialog.showModal();$('stream-amount').focus();$('stream-amount').select();
+  }
+  $('add-income').addEventListener('click',()=>openDialog());
+  $('add-previous-income').addEventListener('click',()=>openDialog(null,true));
+  $('previous-income-list').addEventListener('click',e=>{
+    const edit=e.target.closest('[data-edit-previous]');if(edit)openDialog(edit.dataset.editPrevious,true);
+    const remove=e.target.closest('[data-remove-previous]');if(remove&&confirm('この前年収入を削除しますか？')){state.previous.streams=state.previous.streams.filter(s=>s.id!==remove.dataset.removePrevious);markEdited();renderPreviousList();render();}
+  });
+  $('stream-extra').addEventListener('change',e=>{if(e.target.name==='cashSame')$('cash-separate').hidden=e.target.checked;});
+  // The selected unit applies to the entered number. Never repeatedly convert and round it.
+  $('income-list').addEventListener('click',e=>{
+    const edit=e.target.closest('[data-edit]');if(edit)openDialog(edit.dataset.edit);
+    const remove=e.target.closest('[data-remove]');if(remove){const s=state.streams.find(x=>x.id===remove.dataset.remove);if(!confirm(`「${s.name}」をこの試算から削除しますか？`))return;state.streams=state.streams.filter(x=>x.id!==s.id);markEdited();renderIncomeList();render();}
+  });
+  ['close-dialog','cancel-dialog'].forEach(id=>$(id).addEventListener('click',()=>dialog.close()));
+  $('stream-type').addEventListener('change',()=>{
+    const oldName=$('stream-name').value;
+    // Preserve common fields but start type-specific values from sensible defaults.
+    const type=$('stream-type').value,s=E.makeStream(type);
+    if(Object.values(E.TYPES).includes(oldName)||!oldName)$('stream-name').value=E.TYPES[type];
+    if(!editingId&&ONE_OFF.includes(type))$('stream-end').value=$('stream-start').value;
+    renderStreamExtra(s);$('stream-error').hidden=true;
+  });
+  $('stream-start').addEventListener('input',()=>{if($('stream-type').value==='retirement'||editingPrevious)$('stream-end').value=$('stream-start').value;});
+  form.addEventListener('invalid',()=>{$('stream-options').open=true;},true);
+  form.addEventListener('submit',e=>{
+    e.preventDefault();const s=readDraft();const next=E.clone(state);
+    const owner=editingPrevious?next.previous:next;
+    if(editingId)owner.streams=owner.streams.map(x=>x.id===editingId?s:x);else owner.streams.push(s);
+    if(editingPrevious)next.previous.enabled=true;
+    const errors=E.validate(next);
+    if(!s.name)errors.unshift('名前を入力してください。');
+    if(errors.length){$('stream-error').hidden=false;$('stream-error').innerHTML=errors.map(v=>`<p>${esc(v)}</p>`).join('');return;}
+    state=next;markEdited();dialog.close();renderIncomeList();renderPreviousList();$('previous-enabled').checked=state.previous.enabled;render();
+  });
+
+  function validForSave() {if(result.errors.length){toast('入力エラーを直してから保存してください。');return false;}return true;}
+  function download(text,name,type) {const blob=new Blob([text],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  $('save-local').addEventListener('click',()=>{if(!validForSave())return;try{localStorage.setItem(KEY,JSON.stringify(state));mode='saved';renderStatus();toast('このブラウザーに保存しました。');}catch{toast('端末保存を利用できません。「設定を書き出す」を使ってください。');}});
+  $('export-json').addEventListener('click',()=>{if(validForSave())download(JSON.stringify(state,null,2),'pension-settings.json','application/json;charset=utf-8');});
+  $('import-json').addEventListener('click',()=>$('import-file').click());
+  $('import-file').addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    try{if(file.size>1024*1024)throw new Error('設定ファイルは1MB以内にしてください。');const data=JSON.parse(await file.text());const errors=E.validate(data);if(errors.length)throw new Error(errors.slice(0,3).join(' '));
+      state=data;mode='imported';fillForm();render();toast('設定を読み込みました。');
+    }catch(error){toast(`読み込めませんでした。${error instanceof SyntaxError?'JSONの形式を確認してください。':error.message}`);}finally{e.target.value='';}
+  });
+  $('reset').addEventListener('click',()=>{if(!confirm('現在の入力をサンプル値に置き換えますか？端末の保存データは削除しません。'))return;state=E.clone(E.SAMPLE);mode='sample';fillForm();render();toast('サンプル値に戻しました。');});
+  $('clear-inputs').addEventListener('click',()=>{if(!confirm('画面の収入と条件を初期値に戻しますか？端末保存は削除しません。'))return;state=E.clone(E.DEFAULTS);mode='empty';fillForm();render();toast('サンプルなし・収入0円で開始しました。');});
+  $('delete-saved').addEventListener('click',()=>{if(!confirm('このブラウザーの保存データを削除しますか？現在の画面の入力は残ります。'))return;try{localStorage.removeItem(KEY);if(mode==='saved')mode='edited';renderStatus();toast('保存データを削除しました。');}catch{toast('端末の保存領域にアクセスできませんでした。');}});
+  $('export-csv').addEventListener('click',()=>{
+    if(!validForSave())return;
+    const headings=['年齢','公的年金等_円','給与_円','その他収入_円','収入合計_円','現金支出_円','所得税等_円','住民税等_円','社会保険料_円','年間手取り_円','月平均手取り_円','元本取崩し_円','生活費_円','生活費後年間収支_円'];
+    const data=result.rows.map(r=>[r.age,r.publicGross,r.salaryGross,r.gross-r.publicGross-r.salaryGross,r.gross,r.expenses,r.incomeTax,r.localTax,r.social.total,r.net,Math.round(r.monthlyNet),r.principal,r.living,r.balance]);
+    download('\uFEFF'+[headings,...data].map(r=>r.join(',')).join('\r\n'),'pension-cashflow.csv','text/csv;charset=utf-8');
+  });
+  $('print').addEventListener('click',()=>window.print());
+  try{const saved=localStorage.getItem(KEY);if(saved){const data=JSON.parse(saved);if(!E.validate(data).length){state=data;mode='saved';}else toast('保存データの形式を確認できないため、収入なしの初期状態を表示しました。');}}catch{/* File/private mode may disallow localStorage. In-memory use remains available. */}
+  fillForm();render();
+})();
+
+</script>
+</body></html>
