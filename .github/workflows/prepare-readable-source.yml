@@ -1,0 +1,101 @@
+# One-time conversion of the already verified bundle into readable source.
+# Removes itself and the legacy transfer payload after committing to this audit branch.
+name: Prepare readable audit source
+on:
+  push:
+    branches: [audit/browser-tax-20260906]
+    paths: [.github/workflows/prepare-readable-source.yml]
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: audit/browser-tax-20260906
+      - name: Verify original and correct care-premium calculation
+        run: |
+          bash ./build-site.sh ./_site
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root = Path.cwd()
+          src = (root/'_site/index.html').read_bytes()
+          assert hashlib.sha256(src).hexdigest() == '44624826fadd73006a44facdc04e290334d369b0045006a8505476f4d4a1f930'
+          html = src.decode('utf-8')
+          old = '''  function care65(raw, config) {
+              const income = raw.insuranceIncome;
+              if (income <= config.tax.localExempt) {
+                // Single-person, non-taxable household only. Personal allowances not automated.
+                const salaryCorrection = Math.min(100000,NONNEG(raw.salary-raw.adjustment));
+                const judge = NONNEG(income-raw.pensionTaxable-salaryCorrection)+raw.publicGross;'''
+          new = '''  // FY2026 Shinjuku care premiums retain the pre-2025 salary-income rules.
+            // This is a care-only adjustment: never change income/resident tax salary income.
+            // https://www.city.shinjuku.lg.jp/fukushi/file07_02_00006.html
+            function careSalaryIncome(gross) {
+              const a = FLOOR(NONNEG(gross));
+              if (a < 551000) return 0;
+              if (a < 1619000) return a - 550000;
+              if (a < 1620000) return 1069000;
+              if (a < 1622000) return 1070000;
+              if (a < 1624000) return 1072000;
+              if (a < 1628000) return 1074000;
+              if (a < 1800000) return ROUND(FLOOR(a / 4, 1000) * 2.4 + 100000);
+              if (a < 2200000) return ROUND(FLOOR(a / 4, 1000) * 2.8 - 80000);
+              return salaryIncome(a);
+            }
+            function care65(raw, config) {
+              const salary = careSalaryIncome(raw.salaryGross);
+              const otherIncome = raw.totalIncome - raw.pensionTaxable + raw.adjustment - raw.salary + salary;
+              const pension = pensionIncome(raw.publicGross, raw.age, otherIncome);
+              const adjustment = salaryPensionAdjustment(salary, pension);
+              const income = raw.insuranceIncome - raw.salary - raw.pensionTaxable + raw.adjustment + salary + pension - adjustment;
+              if (income <= config.tax.localExempt) {
+                // Care tiers 1-5: add back the salary/pension adjustment BEFORE the 100k deduction.
+                const salaryCorrection = Math.min(100000, salary) - adjustment;
+                const judge = NONNEG(income-pension-salaryCorrection)+raw.publicGross;'''
+          assert html.count(old) == 1
+          html = html.replace(old, new)
+          oldnote = '前年反映は年単位であり、納付時期の厳密な再現ではありません。'
+          newnote = oldnote + '65歳以上の介護保険料は2026年度の特例に合わせ、給与所得を改正前の控除額で別計算します。この特例も固定モデル内では全期間に固定しており、将来年度の制度予測ではありません。'
+          assert html.count(oldnote) == 1
+          html = html.replace(oldnote, newnote)
+          oldnote = '「月額手取り」は年額を12で割った平均で、実際の振込額ではありません。'
+          newnote = oldnote + '所得税等は所得税と復興税の計算額で、年末調整・確定申告の最終納付時の100円未満切捨てや源泉徴収済額との精算は再現しません。'
+          assert html.count(oldnote) == 1
+          html = html.replace(oldnote, newnote).replace('v2.0 ·', 'v2.0.1 ·')
+          assert hashlib.sha256(html.encode()).hexdigest() == '68320843baa9eaad6cff687166c54e4165254107e99cb68d53716e6894f34ebf'
+          (root/'index.html').write_text(html, encoding='utf-8')
+          (root/'build-site.sh').write_text('#!/usr/bin/env bash\nset -euo pipefail\nROOT="$(cd "$(dirname "$0")" && pwd)"\nOUT="${1:-$ROOT/_site}"\nmkdir -p "$OUT"\ncp "$ROOT/index.html" "$OUT/index.html"\ncmp "$ROOT/index.html" "$OUT/index.html"\nsha256sum "$OUT/index.html"\n')
+          (root/'README.md').write_text('''# 年金・収入・手取りシミュレーター
+
+          日本の年金、給与、副業・事業、家賃、投資などから税金・社会保険料・手取りを概算する静的Webアプリです。
+
+          公開ページ: https://rttrzdf.github.io/nenkin-simulator/
+
+          ## ソースと公開
+          `index.html` が画面と計算ロジックを含む正本です。外部ライブラリ・サーバー・ビルド用パッケージは不要です。旧版の圧縮転送データは通常のHTMLに戻しました。
+
+          `bash build-site.sh ./_site` で公開用フォルダーへコピーし、コピーの完全一致を確認します。mainへのpushで既存のPagesワークフローが公開します。
+
+          ## 追加検証
+          `tests/browser-audit.py` は公開ページとPR内の候補を区別し、Chromium・WebKit・Firefoxで実URL操作、実ストレージの保存・復元、プロセス再起動を検証します。GitHub Actionsの実行結果は各PRで確認してください。WebKitのモバイルエミュレーションはiPhone実機の代用ではありません。
+
+          ## 計算の範囲
+          2026年の固定制度・東京/新宿区・単身モデルです。v2.0.1では介護保険の給与所得調整を修正しました。この2026年度特例も固定モデルの全期間へ適用し、将来制度を予測しません。
+
+          所得税等の計算額と最終納付額は異なります。年末調整・確定申告の納付時100円未満切捨て、源泉徴収済額との精算、各取引単位の端数は再現しません。全税目、全国の自治体、家族構成、不動産特例、損失繰越、退職金の複数受取等に完全対応するものではありません。画面末尾の前提と公式出典を確認してください。
+
+          税務申告・納付・年金請求の確定判断には公式資料や専門家による個別確認が必要です。
+          ''', encoding='utf-8')
+          PY
+      - name: Commit only review-branch source changes
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm -- site-payload/part-00 site-payload/part-01 site-payload/part-01-fix-09728 site-payload/part-02 site-payload/part-03 .github/workflows/prepare-readable-source.yml
+          git add index.html build-site.sh README.md
+          git commit -m "Fix care income basis and retain readable simulator source"
+          git push origin HEAD:audit/browser-tax-20260906
